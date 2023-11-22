@@ -1,5 +1,6 @@
-./node_modules
-./dist
-./https.txt
-./packet.txt
-./src/fcm.json
+dist/
+https.txt
+packet.txt
+src/fcm.json
+
+node_modules/
