@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "CommonJS",
+        "noEmit": true,
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "moduleResolution": "node",
+        "jsx": "preserve",
+        "types": ["node"],
+        "outDir": "./dist",
+        "baseUrl": ".",
+        "strict": true,
+        "noImplicitAny": true,
+        "strictFunctionTypes": true,
+    },
+    "exclude": [
+        "*.config.ts",
+        "./src/test/*.ts"
+    ]
+}
