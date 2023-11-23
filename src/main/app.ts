@@ -223,6 +223,9 @@ export default class ElectronApp {
 
                 const auctionResponse: AuctionResponse = await this.toyClient.request(auctionRequest, AuctionResponse);
 
+                if(auctionResponse.records[auctionResponse.records.length - 1].nSN == lastSn) {
+                    return [];
+                }
                 return auctionResponse.records;
             } else {
                 return [];
