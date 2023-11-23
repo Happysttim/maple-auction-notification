@@ -3,7 +3,7 @@ import { IResponse, IRequest, Host, Header, BodyMessage } from '../nx-request';
 export interface SignInResponse extends IResponse {
     errorCode: number;
     result?: {
-        npSN: number | string,
+        npSN: number,
         guid: string,
         umKey: string,
         memType: number,

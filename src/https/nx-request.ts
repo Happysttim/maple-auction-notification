@@ -26,7 +26,6 @@ type NPParamsKey = keyof NPParams;
 export type Header = {
     [key: string]: unknown,
     npparams?: string,
-    npsn?: number
 } & {
     [key: string]: any,
 };
@@ -66,7 +65,10 @@ export default class NXRequest {
         );
     }
 
-    npparams<T extends IRequest>(nxRequest: T, encryptType: HttpsCryptType, options: {
+    npparams<T extends IRequest>(nxRequest: T, encryptOptions: {
+        encryptType: HttpsCryptType,
+        key?: number
+    }, options: {
         [key in NPParamsKey]?: unknown
     }) {
         const npparamsObj: NPParams = {
@@ -91,15 +93,15 @@ export default class NXRequest {
                     JSON.stringify(npparamsObj), 
                     'utf-8'
                 ),
-                encryptType,
-                nxRequest.header['npsn'] ?? 0
+                encryptOptions.encryptType,
+                encryptOptions.key ?? 0
             )
         );
     }
 
-    async send<K extends IRequest, V extends IResponse>(nxRequest: K, responseOptions?: {
+    async request<K extends IRequest, V extends IResponse>(nxRequest: K, responseOptions?: {
         decryptType: HttpsCryptType,
-        npsn?: number
+        key?: number
     }): Promise<V> {
         const data = nxRequest.body.encrypted || JSON.stringify(nxRequest.body); 
 
@@ -116,7 +118,7 @@ export default class NXRequest {
                         httpCrypt.decrypt(
                             response.data,
                             responseOptions.decryptType,
-                            responseOptions.npsn ?? 0
+                            responseOptions.key ?? 0
                         ).toString()
                     );
                 }

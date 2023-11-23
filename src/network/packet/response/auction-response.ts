@@ -1,7 +1,7 @@
 import { ReadBuffer } from "../packet-buffer";
 import { IResponse } from "../toy-packet";
 
-type Record = {
+export type Record = {
     nSN: number;
     message: string;
     date: string;
@@ -15,7 +15,7 @@ type Record = {
     price: number;
 }
 
-export default class AutionResponse implements IResponse {
+export default class AuctionResponse implements IResponse {
     readonly packetId: number = 22;
     records: Array<Record> = [];
 

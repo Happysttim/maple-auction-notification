@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "concurrently \"npm run compile:main\" \"npm run compile:renderer\"",
     "compile:renderer": "vite -c vite.renderer.config.ts",
-    "compile:main": "ts-patch install && rollup -c rollup.main.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs && rollup -c rollup.preload.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs && electron .",
+    "compile:main": "rollup -c rollup.main.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs && rollup -c rollup.preload.config.ts --configPlugin @rollup/plugin-typescript --bundleConfigAsCjs && electron .",
     "vite": "vite -c vite.renderer.config.ts ",
     "build": "tsc && vite -c renderer.config.ts build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
@@ -47,6 +47,7 @@
     "axios": "^1.6.0",
     "electron-store": "^8.1.0",
     "iconv-lite": "^0.6.3",
+    "long": "^5.2.3",
     "pkcs7": "^1.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

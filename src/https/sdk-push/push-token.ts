@@ -1,8 +1,6 @@
 import { IRequest, Host, Header, BodyMessage, IResponse } from '../nx-request';
 
-export interface NXToyTokenResponse extends IResponse {}
-
-export class NXToyTokenRequest implements IRequest {
+export default class NXToyTokenRequest implements IRequest {
 
     host!: Host;
     path!: string;

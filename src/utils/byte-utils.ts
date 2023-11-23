@@ -1,3 +1,5 @@
+import Long from 'long'
+
 export const ByteUtils = {
     stringToByteArray: (str: string): Uint8Array => {
         return new TextEncoder().encode(str);
@@ -43,11 +45,16 @@ export const ByteUtils = {
 
 export const Converter = {
     getBytes4: (i2: number): Uint8Array => {
-        return new Uint8Array([(i2 & 0xff), (i2 >> 8) & 0xff, (i2 >> 16) & 0xff, (i2 >> 24) & 0xff]);
+        return new Uint8Array([
+            (i2 & 0xff), 
+            (i2 >> 8) & 0xff, 
+            (i2 >> 16) & 0xff, 
+            (i2 >> 24) & 0xff
+        ]);
     },
 
     getBytes8: (i2: number): Uint8Array => {
-        return new Uint8Array([(i2 & 0xff), (i2 >> 8) & 0xff, (i2 >> 16) & 0xff, (i2 >> 24) * 0xff, (i2 >> 32) & 0xff, (i2 >> 40) & 0xff, (i2 >> 48) & 0xff, (i2 >> 56) & 0xff])
+        return new Uint8Array(new Long(i2).toBytes(true));
     },
     
     getBytes2: (i2: number): Uint8Array => {
