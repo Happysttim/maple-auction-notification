@@ -149,7 +149,7 @@ export default class ElectronApp {
             }
         });
         
-        ipcMain.handle('LOGIN', async (_: IpcMainInvokeEvent, [_id, _password]) => {
+        ipcMain.handle('LOGIN', async (_: IpcMainInvokeEvent, [_id, _password]): Promise<boolean> => {
             if(!this.toyClient.isConnect) {
                 this.toyClient.connect();
             }
@@ -205,7 +205,11 @@ export default class ElectronApp {
                     
                     await this.nxrequest.request(tokenRequest);
                 }
+
+                return true;
             }
+
+            return false;
         });
 
         ipcMain.handle('AUCTION_HISTORY', async (_, lastSn: number): Promise<AuctionRecord[]> => {
@@ -225,7 +229,7 @@ export default class ElectronApp {
             }
         });
 
-        ipcMain.handle('LOGOUT', async () => {
+        ipcMain.handle('LOGOUT', async (): Promise<boolean> => {
             if(this.nxCredential) {
                 const logoutRequest: LogoutSVCRequest = new LogoutSVCRequest(
                     this.appsetId,
@@ -252,10 +256,12 @@ export default class ElectronApp {
 
                 if(logoutResponse.errorCode == 0) {
                     this.toyClient.end();
+                    return true;
                 } else {
-                    throw new Error(`ErrorCode: ${logoutResponse.errorCode}, ErrorText: ${logoutResponse.errorText}`);
+                    return false;
                 }
             }
+            return false;
         });
     }
 
