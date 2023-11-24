@@ -43,16 +43,15 @@ export default class ElectronApp {
     private appsetId!: string;
     private nxCredential?: NXCredential;
 
-    private windowOption = {
+    private windowOption: Electron.BrowserWindowConstructorOptions = {
         resizable: false,
-        minimizable: false,
         maximizable: false,
         focusable: true,
-        skipTaskbar: true,
+        titleBarStyle: 'hidden',
         titleBarOverlay: {
-            color: '#2f3241',
-            symbolColor: '#74b1be',
-            height: 60
+            color: '#ff804c',
+            symbolColor: '#ffffff',
+            height: 30
         },
         webPreferences: {
             contextIsolation: true,
