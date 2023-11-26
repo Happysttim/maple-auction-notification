@@ -75,12 +75,14 @@ const LoginBox = () => {
                 }
             break;
         }
+
+        e.preventDefault();
     }, []);
 
     return (
         <div style={LoginBoxStyle}>
             <LoginTypeBox></LoginTypeBox>
-            <div style={FormStyle}>
+            <form onSubmit={OnSubmit} style={FormStyle}>
                 <div style={FormControllStyle}>
                     <span style={LabelStyle}>
                         {
@@ -96,9 +98,9 @@ const LoginBox = () => {
                     <input type="password" ref={passwordRef} style={InputTextStyle} defaultValue=""></input>
                 </div>
                 <div style={FormControllStyle}>
-                    <input type="button" style={SubmitButtonStyle} onClick={OnSubmit} value="로그인"></input>
+                    <input type="submit" style={SubmitButtonStyle} value="로그인"></input>
                 </div>
-            </div>
+            </form>
         </div>
     );
 };
