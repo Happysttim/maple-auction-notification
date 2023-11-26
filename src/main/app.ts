@@ -102,8 +102,8 @@ export default class ElectronApp {
     initLoginWindow() {
         this.loginWindow = new BrowserWindow(
             {
-                width: 400,
-                height: 700,
+                width: 500,
+                height: 350,
                 ...this.windowOption
             }
         );
@@ -115,6 +115,7 @@ export default class ElectronApp {
         }
 
         this.loginWindow.show();
+        this.loginWindow.webContents.openDevTools();
     }
 
     initHook() {
@@ -148,14 +149,14 @@ export default class ElectronApp {
             }
         });
         
-        ipcMain.handle('LOGIN', async (_: IpcMainInvokeEvent, [_id, _password]): Promise<boolean> => {
+        ipcMain.handle('LOGIN', async (_: IpcMainInvokeEvent, [loginType, _emailOrId, _password]): Promise<boolean> => {
             if(!this.toyClient.isConnect) {
                 this.toyClient.connect();
             }
 
             const loginRequest: LoginRequest = new LoginRequest();
             loginRequest.set({
-                id: _id,
+                id: _emailOrId,
                 password: _password,
                 adid: this.uuid
             });

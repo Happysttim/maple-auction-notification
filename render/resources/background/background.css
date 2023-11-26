@@ -1,0 +1,52 @@
+body {
+    padding: 0px;
+    margin: 0px;
+    font-family: NanumGothicLight;
+    background: linear-gradient(0deg, #ffbda3, #ff804c) no-repeat; 
+    overflow: hidden;
+    height: 100vh;
+    user-select: none;
+}
+
+header {
+    height: 30px;
+    background-color: #ff804c;
+    z-index: 1;
+    -webkit-app-region: drag;
+}
+
+header span {
+    font: NanumGothicExtraBold;
+    color: white;
+    display: block;
+    padding: 10px;
+    margin-left: 5px;
+}
+
+@font-face {
+    font-family: NanumGothic;
+    src: url('../fonts/NanumGothic.otf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: NanumGothicBold;
+    src: url('../fonts/NanumGothicBold.otf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: NanumGothicExtraBold;
+    src: url('../fonts/NanumGothicExtraBold.otf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: NanumGothicLight;
+    src: url('../fonts/NanumGothicLight.otf');
+    font-weight: normal;
+    font-style: normal;
+}
