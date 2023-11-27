@@ -53,7 +53,7 @@ const SubmitButtonStyle = {
 const LoginBox = () => {
     const loginType = useContext(LoginTypeContext);
 
-    const emailOrIdRef = useRef<HTMLInputElement>(null);
+    const idRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
 
     if(!loginType) {
@@ -61,11 +61,15 @@ const LoginBox = () => {
     }
 
     const OnSubmit = useCallback((e: FormEvent) => {
-        if(emailOrIdRef.current!.value.trim() == "" || passwordRef.current!.value.trim() == "") {
-            console.log('아이디 또는 비밀번호 입력이 유효하지 않습니다.');
+        e.preventDefault();
+
+        if(idRef.current!.value.trim() == "" || passwordRef.current!.value.trim() == "") {
+            window.ipcRenderer.send('SHOW_ERROR', '로그인 오류', '아이디 또는 비밀번호가 유효하지 않습니다.')
+
+            return;
         }
 
-        e.preventDefault();
+        window.ipcRenderer.invoke('LOGIN', loginType, idRef.current!.value, passwordRef.current!.value);
     }, []);
 
     return (
@@ -78,7 +82,7 @@ const LoginBox = () => {
                             loginType == 'email' ? '넥슨이메일ID' : '메이플ID'
                         }
                     </span>
-                    <input type="text" ref={emailOrIdRef} style={InputTextStyle} defaultValue=""></input>
+                    <input type="text" ref={idRef} style={InputTextStyle} defaultValue=""></input>
                 </div>
                 <div style={FormControllStyle}>
                     <span style={LabelStyle}>

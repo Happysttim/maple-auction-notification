@@ -1,6 +1,6 @@
 import * as path from 'path';
-import { app, BrowserWindow, Tray, ipcMain, Menu, nativeImage, IpcMainInvokeEvent, Notification, Data } from 'electron';
-import electronIsDev, * as isDev from 'electron-is-dev';
+import { app, BrowserWindow, Tray, ipcMain, Menu, nativeImage, IpcMainInvokeEvent, Notification, dialog, IpcMainEvent } from 'electron';
+import electronIsDev from 'electron-is-dev';
 import ToyClient from '../network/toy-client';
 import fcm from '../fcm.json';
 import { PushReceiver } from '@eneris/push-receiver';
@@ -148,16 +148,23 @@ export default class ElectronApp {
                 this.toyClient.end();
             }
         });
+
+        ipcMain.on('SHOW_ERROR', (_, [ title, content ]) => {
+            dialog.showErrorBox(title, content);
+        });
         
-        ipcMain.handle('LOGIN', async (_: IpcMainInvokeEvent, [loginType, _emailOrId, _password]): Promise<boolean> => {
+        ipcMain.handle('LOGIN', async (_: IpcMainInvokeEvent, [loginType, id, password]): Promise<boolean> => {
+            if(id.trim() == "" || password.trim() == "")
+                return false;
+
             if(!this.toyClient.isConnect) {
                 this.toyClient.connect();
             }
 
             const loginRequest: LoginRequest = new LoginRequest();
             loginRequest.set({
-                id: _emailOrId,
-                password: _password,
+                id: id,
+                password: password,
                 adid: this.uuid
             });
 
@@ -170,7 +177,7 @@ export default class ElectronApp {
                     this.uuid2, 
                     loginResponse.dwAccountId!,
                     NXCrypt.HttpsCrypt.encodeHmacSha256ToHexString(
-                        "NexonUser", ByteUtils.stringToByteArray(_password)
+                        "NexonUser", ByteUtils.stringToByteArray(password)
                     )
                 );
 
@@ -204,6 +211,9 @@ export default class ElectronApp {
                     );
                     
                     await this.nxrequest.request(tokenRequest);
+
+                    this.loginWindow.destroy();
+                    this.initMainWindow();
                 }
 
                 return true;
