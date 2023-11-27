@@ -61,19 +61,8 @@ const LoginBox = () => {
     }
 
     const OnSubmit = useCallback((e: FormEvent) => {
-        switch(loginType.toLowerCase()) {
-            case 'email':
-                if(emailOrIdRef.current!.value.trim() == "" || !emailOrIdRef.current!.value.trim().match("/.+\@.+(\.com|\.net)/g") || passwordRef.current!.value.trim() == "") {
-                    alert('이메일 또는 비밀번호 입력이 유효하지 않습니다.');
-                } else {
-                    alert('TODO');
-                }
-            break;
-            case 'normal':
-                if(emailOrIdRef.current!.value.trim() == "" || passwordRef.current!.value.trim() == "") {
-                    alert('아이디 또는 비밀번호 입력이 유효하지 않습니다.');
-                }
-            break;
+        if(emailOrIdRef.current!.value.trim() == "" || passwordRef.current!.value.trim() == "") {
+            console.log('아이디 또는 비밀번호 입력이 유효하지 않습니다.');
         }
 
         e.preventDefault();
