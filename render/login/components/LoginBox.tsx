@@ -1,5 +1,5 @@
 import React, { FormEvent, useCallback, useContext, useRef } from 'react';
-import { LoginTypeContext } from '../context/LoginTypeContext';
+import { LoginTypeContext } from '../contexts/LoginTypeContext';
 import LoginTypeBox from './LoginTypeBox';
 
 const LoginBoxStyle = {

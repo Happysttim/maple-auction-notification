@@ -1,4 +1,4 @@
-import { LoginTypeProvider } from './context/LoginTypeContext';
+import { LoginTypeProvider } from './contexts/LoginTypeContext';
 import LoginBox from './components/LoginBox';
 
 const App = () => {

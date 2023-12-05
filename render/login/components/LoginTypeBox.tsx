@@ -1,5 +1,5 @@
 import React, { MouseEvent, useContext } from 'react';
-import { LoginType, LoginTypeContext, LoginTypeDispatch } from '../context/LoginTypeContext';
+import { LoginType, LoginTypeContext, LoginTypeDispatch } from '../contexts/LoginTypeContext';
 
 const TypeBoxStyle = {
     width: '360px',
