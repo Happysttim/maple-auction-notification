@@ -3,15 +3,19 @@ body {
     margin: 0px;
     font-family: NanumGothicLight;
     background: linear-gradient(0deg, #ffbda3, #ff804c) no-repeat; 
-    overflow: hidden;
     height: 100vh;
+    overflow: hidden;
     user-select: none;
+    -webkit-app-region: no-drag;
+    z-index: 1;
 }
 
 header {
     height: 30px;
     background-color: #ff804c;
-    z-index: 1;
+    z-index: 9999;
+    position: fixed;
+    overflow: hidden;
     -webkit-app-region: drag;
 }
 

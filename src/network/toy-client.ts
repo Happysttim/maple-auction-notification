@@ -53,8 +53,9 @@ export default class ToyClient {
     }
 
     connect() {
-        if(this.socket == null) 
+        if(this.socket == null) {
             this.socket = net.connect(serverOpts);
+        }
         this.isConnect = true;
     }
 

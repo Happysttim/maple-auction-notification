@@ -97,6 +97,7 @@ export default class ElectronApp {
         }
 
         this.mainWindow.show();
+        this.mainWindow.webContents.openDevTools();
     }
 
     initLoginWindow() {
@@ -115,7 +116,6 @@ export default class ElectronApp {
         }
 
         this.loginWindow.show();
-        this.loginWindow.webContents.openDevTools();
     }
 
     initHook() {
@@ -212,8 +212,8 @@ export default class ElectronApp {
                     
                     await this.nxrequest.request(tokenRequest);
 
-                    this.loginWindow.destroy();
                     this.initMainWindow();
+                    this.loginWindow.destroy();
                 }
 
                 return true;
@@ -222,10 +222,9 @@ export default class ElectronApp {
             return false;
         });
 
-        ipcMain.handle('AUCTION_HISTORY', async (_, lastSn: number): Promise<AuctionRecord[]> => {
+        ipcMain.handle('AUCTION_HISTORY', async (_, [ lastSn ]): Promise<AuctionRecord[]> => {
             if(this.nxCredential) {
                 const auctionRequest: AuctionRequest = new AuctionRequest();
-
                 auctionRequest.set({
                     accountId: this.nxCredential.dwAccountId,
                     lastSn: lastSn
