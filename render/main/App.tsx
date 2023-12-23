@@ -1,8 +1,16 @@
-import CardList from './components/CardList';
+import PanelScreen from "./components/PanelScreen";
+import { RecordListProvider } from "./contexts/RecordListContext";
+
+import { SelectedItemProvider } from "./contexts/SelectedItemContext";
 
 const App = () => {
     return (
-        <CardList></CardList>
+        <SelectedItemProvider>
+            <RecordListProvider>
+                <PanelScreen>
+                </PanelScreen>
+            </RecordListProvider>
+        </SelectedItemProvider>
     );
 }
 

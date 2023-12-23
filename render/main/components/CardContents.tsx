@@ -25,8 +25,8 @@ const CardContentsStyle = {
     MessageStyle: {
         BoxStyle: {
             width: "100%",
-            alignItems: "flex-end" as const,
-            fontSize: "16pt",
+            height: "100%",
+            fontSize: "14pt",
             letterSpacing: "-1px"
         },
 
@@ -47,9 +47,9 @@ const CardContentsStyle = {
 const Sell = (props: CardContentsProps) => {
     return (
         <>
-            <span style={CardContentsStyle.MessageStyle.ServerNameStyle}>{maple.worldToName(props.record.worldId)}</span>
-            에서 <span style={CardContentsStyle.MessageStyle.ItemNameStyle}>{props.record.itemName}({props.record.count}개)</span> 이(가)
-            <span style={CardContentsStyle.MessageStyle.PriceStyle}>{props.record.price}</span> 메소에 팔렸습니다.
+            <span style={CardContentsStyle.MessageStyle.ServerNameStyle}>{maple.worldToName(props.record.worldId)}</span>서버
+            에서 <span style={CardContentsStyle.MessageStyle.ItemNameStyle}>{props.record.itemName}({props.record.count}개)</span>이(가)&nbsp;
+            <span style={CardContentsStyle.MessageStyle.PriceStyle}>{new Intl.NumberFormat("en-US").format(props.record.price)}메소</span>에 팔렸습니다.
         </>
     );
 }
@@ -57,7 +57,7 @@ const Sell = (props: CardContentsProps) => {
 const Expiration = (props: CardContentsProps) => {
     return (
         <>
-            <span style={CardContentsStyle.MessageStyle.ServerNameStyle}>{maple.worldToName(props.record.worldId)}</span>
+            <span style={CardContentsStyle.MessageStyle.ServerNameStyle}>{maple.worldToName(props.record.worldId)}</span>서버
             에서 <span style={CardContentsStyle.MessageStyle.ItemNameStyle}>{props.record.itemName}</span> 이(가) 만료되었습니다.
         </>
     )

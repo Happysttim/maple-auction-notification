@@ -1,15 +1,15 @@
 export type AuctionRecord = {
-    nSN: number;
-    message: string;
-    date: string;
-    characterName: string;
-    worldId: number;
-    characterId: number;
-    pushType: number;
-    itemName: string;
-    itemId: number;
-    count: number;
-    price: number;
+    nSN: number,
+    message: string,
+    date: string,
+    characterName: string,
+    worldId: number,
+    characterId: number,
+    pushType: number,
+    itemName: string,
+    itemId: number,
+    count: number,
+    price: number,
 };
 
 const maple = {

@@ -48,11 +48,6 @@ export default class ElectronApp {
         maximizable: false,
         focusable: true,
         titleBarStyle: 'hidden',
-        titleBarOverlay: {
-            color: '#ff804c',
-            symbolColor: '#ffffff',
-            height: 30
-        },
         webPreferences: {
             contextIsolation: true,
             nodeIntegration: true,
@@ -73,7 +68,7 @@ export default class ElectronApp {
 
     async initNotifcate() {
 
-        this.pushReceiver.onCredentialsChanged(({oldCredentials, newCredentials}) => {
+        this.pushReceiver.onCredentialsChanged(({ newCredentials }) => {
             this.pushToken = newCredentials.fcm.token;
         });
 
@@ -84,9 +79,14 @@ export default class ElectronApp {
         
         this.mainWindow = new BrowserWindow(
             {
-                width: 1000,
-                height: 800,
-                ...this.windowOption
+                width: 900,
+                height: 770,
+                ...this.windowOption,
+                titleBarOverlay: {
+                    color: 'white',
+                    symbolColor: 'black',
+                    height: 30
+                }
             }
         );
 
@@ -105,7 +105,12 @@ export default class ElectronApp {
             {
                 width: 500,
                 height: 350,
-                ...this.windowOption
+                ...this.windowOption,
+                titleBarOverlay: {
+                    color: 'black',
+                    symbolColor: 'white',
+                    height: 30
+                }
             }
         );
 
@@ -116,6 +121,7 @@ export default class ElectronApp {
         }
 
         this.loginWindow.show();
+        this.loginWindow.webContents.openDevTools();
     }
 
     initHook() {
@@ -232,7 +238,7 @@ export default class ElectronApp {
 
                 const auctionResponse: AuctionResponse = await this.toyClient.request(auctionRequest, AuctionResponse);
 
-                if(auctionResponse.records[auctionResponse.records.length - 1].nSN == lastSn) {
+                if(auctionResponse.records.length == 0) {
                     return [];
                 }
                 return auctionResponse.records;

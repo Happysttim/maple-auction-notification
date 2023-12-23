@@ -1,30 +1,35 @@
+html {
+    height: 100%;
+}
+
 body {
     padding: 0px;
     margin: 0px;
+    height: 100%;
     font-family: NanumGothicLight;
-    background: linear-gradient(0deg, #ffbda3, #ff804c) no-repeat; 
-    height: 100vh;
+    background: white;
     overflow: hidden;
-    user-select: none;
     -webkit-app-region: no-drag;
+}
+
+div#root {
+    position: relative;
+    top: 30px;
+    font-family: NanumGothicLight;
+    user-select: none;
+    height: 100%;
+    width: 100%;
     z-index: 1;
 }
 
 header {
     height: 30px;
-    background-color: #ff804c;
-    z-index: 9999;
     position: fixed;
     overflow: hidden;
+    right: 0;
+    left: 0;
+    top: 0;
     -webkit-app-region: drag;
-}
-
-header span {
-    font: NanumGothicExtraBold;
-    color: white;
-    display: block;
-    padding: 10px;
-    margin-left: 5px;
 }
 
 @font-face {

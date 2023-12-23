@@ -18,10 +18,11 @@ const LoginTypeBox = () => {
         return {
             width: '179.5px',
             display: 'inline-block',
+            letterSpacing: '-0.5px',
             padding: '10px 0px',
             textAlign: 'center',
-            backgroundColor: type == typeContext ? 'white' : 'lightgray',
-            borderRight: type == 'email' ? '1px solid lightgray' : 'none', 
+            backgroundColor: type == typeContext ? 'inherit' : 'rgba(255, 214, 176, 0.5)',
+            borderRight: type == 'email' ? '1px solid rgba(255, 214, 176, 0.5)' : 'none', 
             borderRadius: (type == 'email' ? '25px 0px 0px 0px' : '0px 25px 0px 0px'),
             cursor: 'pointer'
         }

@@ -4,15 +4,14 @@ import LoginTypeBox from './LoginTypeBox';
 
 const LoginBoxStyle = {
     width: '360px',
-    backgroundColor: 'white',
-    margin: '30px auto',
+    backgroundColor: 'rgba(255, 224, 178, 0.5)',
+    margin: '40px auto',
     borderRadius: '25px'
 }
 
 const FormStyle = {
     width: '100%',
     padding: '30px 0px',
-    backgroundColor: 'white',
     borderRadius: '0px 0px 25px 25px',
 }
 
@@ -27,6 +26,8 @@ const LabelStyle = {
     height: '30px',
     textAlign: 'left' as const,
     marginLeft: '20px',
+    fontFamily: 'NanumGothicLight',
+    letterSpacing: '-0.5px',
     display: 'inline-block' as const
 }
 

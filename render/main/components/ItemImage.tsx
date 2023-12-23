@@ -2,13 +2,7 @@ import React from 'react';
 import maple from '../utils/maple';
 
 type ItemImageProps = {
-    itemCode: number
-}
-
-const ItemImageStyle = {
-    width: "60px",
-    height: "60px",
-    marginRight: "10px"
+    itemCode: number,
 }
 
 const getItemIcon = (id: number): string => {
@@ -17,6 +11,14 @@ const getItemIcon = (id: number): string => {
 }
 
 const ItemImage = (props: ItemImageProps) => {
+    
+    const ItemImageStyle = {
+        width: "33px",
+        height: "33px",
+        margin: "auto 0",
+        marginRight: "10px"
+    }
+
     return (
         <>
             <img src={getItemIcon(props.itemCode)} style={ItemImageStyle} />
