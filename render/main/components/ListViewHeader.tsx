@@ -17,24 +17,34 @@ const ListViewHeader = () => {
             setMeso(0);
             setAmount(0);
         } else {
-            if(context.state != "CHECK") {
-                let addition = 0;
-            
-                for(let i = 0; i < context.new.length; i++) {
-                    addition += context.new[i].pushType == 1 ? context.new[i].price : 0;
+            if(context.state != "CHECK" && context.state != "START") {
+                let addition = 0, start = 0;
+                
+                if(context.state == "CONCAT") {
+                    start = context.latestLength;
+                } else if(context.state == "CONDITION") {
+                    start = 0;
+                } 
+
+                for(let i = 0; i < context.list.length; i++) {
+                    if(context.state == "ADD" && context.list[i].nSN == context.latestSN) {
+                        break;
+                    } 
+
+                    addition += context.list[i].pushType == 1 ? context.list[i].price : 0;
                 }
     
                 switch(context.state) {
                     case "CONCAT":
                     case "ADD":
                         setMeso(meso => meso + addition);
-                        setAmount(amount => amount + context.new.length);
                     break;
-                    case "SET":
-                        setMeso(meso => addition);
-                        setAmount(amount => context.new.length);
+                    case "CONDITION":
+                        setMeso(addition);
                     break;
                 }
+
+                setAmount(context.list.length);
     
                 dispatch({
                     type: "CHECK",
@@ -42,7 +52,7 @@ const ListViewHeader = () => {
                 });
             }   
         }
-    }, [ context ]);
+    }, [ context.list ]);
 
     const HeaderStyle = {
         BoxStyle: {

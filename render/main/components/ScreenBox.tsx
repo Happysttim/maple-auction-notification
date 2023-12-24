@@ -13,11 +13,21 @@ const ScreenBox = (props: any) => {
 
     return (
         <div style={ScreenBoxStyle}>
-            <RecordListProvider>
             {
-                context.routeView
+                (
+                    context.name == "LIST_VIEW" ?
+                    (
+                        <RecordListProvider>
+                            { context.routeView }
+                        </RecordListProvider>
+                    ) :
+                    (
+                        <>
+                            { context.routeView }
+                        </>
+                    )
+                )
             }
-            </RecordListProvider>
         </div>
     )
 }

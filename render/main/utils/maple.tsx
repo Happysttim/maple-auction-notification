@@ -10,6 +10,7 @@ export type AuctionRecord = {
     itemId: number,
     count: number,
     price: number,
+    new?: boolean
 };
 
 const maple = {

@@ -10,6 +10,7 @@ type ListViewProps = {
 
 const ListView = (props: ListViewProps) => {
     const [ fetchState, setFetchState ] = useState<FetchState>("FIRST");
+    const [ count, setCount ] = useState(0);
     const [ context, dispatch ] = [ useContext(RecordListContext), useContext(RecordListDispatch)];
     const listRef = useRef<HTMLDivElement | null>(null);
 
@@ -20,10 +21,11 @@ const ListView = (props: ListViewProps) => {
     const fetch = async (lastSN: number) => {
         if(fetchState != "END") {
             const auctionRecords = await window.ipcRenderer.invoke("AUCTION_HISTORY", lastSN) as AuctionRecord[];
-
+            await new Promise((resolve) => setTimeout(() => { resolve(1) }, 1000));
+            console.log(`FETCHED! ${lastSN}`);
             await setFetchState((!auctionRecords || auctionRecords.length < 20) ? "END" : "DONE");
             await dispatch({
-                type: lastSN == 0 ? "SET" : "CONCAT",
+                type: "CONCAT",
                 victim: auctionRecords 
             });
         }
@@ -33,9 +35,21 @@ const ListView = (props: ListViewProps) => {
         if(fetchState == "FIRST") {
             fetch(0);
         } else if(fetchState == "CALL") {
-            fetch(context.list[context.list.length - 1].nSN);
+            fetch(context.origin[context.origin.length - 1].nSN);
         }
     }, [ fetchState ]);
+
+    useEffect(() => {
+        if(context.state == "CONCAT") {
+            setCount(context.latestLength);
+        } 
+        
+        if(context.state == "CHECK" && fetchState != "END") {
+            if(count == context.list.length) {
+                fetch(context.origin[context.origin.length - 1].nSN);
+            }
+        }
+    }, [ context.state ]);
 
     const listScroll = () => {
         const scrollTop = listRef.current!.scrollTop;

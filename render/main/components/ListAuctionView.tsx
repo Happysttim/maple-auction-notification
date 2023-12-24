@@ -18,7 +18,7 @@ const ListAuctionView = () => {
         <ListViewHeader></ListViewHeader>
         <ListView>
         {
-            context.list.map(record => {
+            context.list && context.list.map(record => {
                 return (
                     <ListItem key={record.nSN}>
                         <ItemImage itemCode={record.itemId} itemName={record.itemName}></ItemImage>
