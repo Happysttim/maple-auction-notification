@@ -46,13 +46,13 @@ const ListViewHeader = () => {
 
     const HeaderStyle = {
         BoxStyle: {
-            padding: "10px",
-            letterSpacing: "-0.1pt",
-            fontSize: "14pt",
+            padding: "25px 20px",
+            letterSpacing: "-0.5pt",
+            fontSize: "16pt",
             color: "black",
             display: "flex" as const,
             justifyContent: "space-between" as const,
-            borderBottom: "1px solid rgba(0,0,0,0.6)",
+            borderBottom: "1px solid rgba(0,0,0,0.3)",
         },
 
         ContentStyle: {

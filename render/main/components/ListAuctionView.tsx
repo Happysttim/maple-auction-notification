@@ -1,65 +1,39 @@
-import React, { useState, useContext, useLayoutEffect, useEffect } from "react";
-import { AuctionRecord } from "../utils/maple";
-import { RecordListContext, RecordListDispatch } from "../contexts/RecordListContext";
+import React, { useContext } from "react";
+import { RecordListContext } from "../contexts/RecordListContext";
 import ListItem from "./ListItem";
 import ItemImage from "./ItemImage";
 import ListItemContent from "./ListItemContent";
 import Bubble from "./Bubble";
 import ListViewHeader from "./ListViewHeader";
+import ListView from "./ListView";
 
 import maple from "../utils/maple";
 
-type FetchState = "FIRST" | "CALL" | "DONE" | "END";
-
 const ListAuctionView = () => {
 
-    const [ fetchState, setFetchState ] = useState<FetchState>("FIRST");
     const context = useContext(RecordListContext);
-    const dispatch = useContext(RecordListDispatch);
-
-    if(!dispatch) {
-        throw new Error("Cannot find RecordListDispatch");
-    }
-
-    const fetch = async (lastSN: number) => {
-        if(fetchState != "END") {
-            const auctionRecords = await window.ipcRenderer.invoke("AUCTION_HISTORY", lastSN) as AuctionRecord[];
-
-            await setFetchState((!auctionRecords || auctionRecords.length < 20) ? "END" : "DONE");
-            await dispatch({
-                type: lastSN == 0 ? "SET" : "CONCAT",
-                victim: auctionRecords 
-            });
-        }
-    }
-
-    useEffect(() => {
-        if(fetchState == "FIRST") {
-            fetch(0);
-        } else if(fetchState == "CALL") {
-            fetch(context.list[context.list.length].nSN);
-        }
-    }, [ fetchState ]);
 
     return (
         <>
         <ListViewHeader></ListViewHeader>
+        <ListView>
         {
             context.list.map(record => {
                 return (
                     <ListItem key={record.nSN}>
-                        <ItemImage itemCode={record.itemId}></ItemImage>
+                        <ItemImage itemCode={record.itemId} itemName={record.itemName}></ItemImage>
                         <ListItemContent>
                             <div style={{
                                 height: "100%",
                             }}>
-                                <Bubble value={record.pushType == 1 ? "판매" : "만료"} width="45px" backgroundColor={record.pushType == 1 ? "#FF9898" : "#D9D9D9"} fontColor={record.pushType == 1 ? "white" : "black"}></Bubble>
-                                <Bubble value={maple.worldToName(record.worldId)} width="50px"></Bubble>
+                                <Bubble value={record.pushType == 1 ? "판매" : "만료"} width="30px" backgroundColor={record.pushType == 1 ? "#FF9898" : "#D9D9D9"} fontColor={record.pushType == 1 ? "white" : "black"}></Bubble>
+                                <Bubble value={maple.worldToName(record.worldId)}></Bubble>
                                 <div style={{
                                     display: "inline-block",
-                                    float: "right"
+                                    float: "right",
+                                    margin: "4px"
                                 }}>
-                                    <Bubble value={record.date} width="140px"></Bubble>
+                                    <span style={{color: "#CBCBCB", fontFamily: "NotoSansKR-Regular", fontSize: "10pt"}}>{ record.date }</span>
                                 </div>
                             </div>
                             <div style={{
@@ -71,7 +45,7 @@ const ListAuctionView = () => {
                                 }}>
                                     개가 {
                                         record.pushType == 1 ? new Intl.NumberFormat("en-US").format(record.price) + "메소에 판매" : "만료"
-                                    } 되었습니다.
+                                    }되었습니다.
                                 </span>
                             </div>
                         </ListItemContent>
@@ -79,6 +53,7 @@ const ListAuctionView = () => {
                 )
             })
         }
+        </ListView>
         </>
     )
 }

@@ -11,17 +11,16 @@ const Bubble = (props: BubbleProps) => {
 
     const BubbleStyle = {
         width: props.width ?? "inherit",
-        borderRadius: "10px",
-        border: "1px solid rgba(255, 255, 255, 0.6)",
-        padding: "3px 6px",
+        borderRadius: "12px",
+        border: "1px solid rgba(255, 255, 255, 1)",
+        padding: "3px 10px",
         display: "inline-block" as const,
-        margin: "0px",
-        marginRight: "5px",
-        fontFamily: "NanumGothicBold",
+        margin: "4px",
         textAlign: "center" as const,
         backgroundColor: props.backgroundColor ?? "#D9D9D9",
         color: props.fontColor ?? "black",
         fontSize: "10pt",
+        fontFamily: "NotoSansKR-SemiBold",
         letterSpacing: "-1pt",
     }
 

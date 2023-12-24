@@ -7,10 +7,10 @@ type ListItemProps = {
 
 const ListItemStyle = {
     width: "inherit",
-    padding: "10px",
+    padding: "15px",
     backgroundColor: "white",
     display: "flex",
-    borderBottom: "1px solid rgba(0,0,0,0.6)",
+    borderBottom: "0.5px solid rgba(152,152,152,0.3)",
 }
 
 const ListItem = (props: ListItemProps) => {

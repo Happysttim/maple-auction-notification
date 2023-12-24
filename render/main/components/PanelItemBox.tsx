@@ -10,7 +10,7 @@ type PanelItemBoxProps = {
 const PanelItemBox = (props: PanelItemBoxProps) => {
 
     const [ context, dispatch ] = [ useContext(RouteViewContext), useContext(RouteViewDispatch) ];
-    const [ bgColor, setBgColor ] = useState<string>(context.name == props.item ? 'black' : '#909090');
+    const [ bgColor, setBgColor ] = useState<string>(context.name == props.item ? '#5A5A5A' : 'inherit');
 
     if(!dispatch) {
         throw new Error("Cannot find SelectedItemDispatch");
@@ -18,23 +18,23 @@ const PanelItemBox = (props: PanelItemBoxProps) => {
 
     const PanelItemBoxStyle = {
         BoxStyle: {
-            width: "100%",
             height: "70px",
-            borderTop: "1px solid #909090",
-            borderBottom: "0.25px solid #909090",
             textAlign: "right" as const,
+            margin: "5px",
+            borderRadius: "10px",
             backgroundColor: bgColor
         },
     
         ItemStyle: {
             color: "white",
-            letterSpacing: "-1px",
-            fontSize: "22pt",
+            letterSpacing: "-1pt",
+            fontSize: "24pt",
+            fontWeight: "100",
             display: "block" as const,
             position: "relative" as const,
             top: "50%",
             transform: "translateY(-50%)",
-            marginRight: "10px"
+            marginRight: "15px"
         }
     }
 
@@ -51,9 +51,9 @@ const PanelItemBox = (props: PanelItemBoxProps) => {
 
     useLayoutEffect(() => {
         if(context.name == props.item) {
-            setBgColor("#909090");
+            setBgColor("#5A5A5A");
         } else {
-            setBgColor("black");
+            setBgColor("inherit");
         }
     }, [ context.name ])
 

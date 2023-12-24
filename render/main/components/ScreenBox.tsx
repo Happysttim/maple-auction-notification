@@ -6,7 +6,6 @@ const ScreenBoxStyle = {
     backgroundColor: "white",
     flexGrow: 2,
     zIndex: 1,
-    overflowY: "auto" as const,
 }
 
 const ScreenBox = (props: any) => {

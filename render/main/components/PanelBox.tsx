@@ -3,7 +3,7 @@ import React from "react";
 const PanelBoxStyle = {
     width: "270px",
     height: "100%",
-    backgroundColor: "black",
+    backgroundColor: "#3D3D3D",
     zIndex: "9999",
     position: "relative" as const,
     top: '-30px',

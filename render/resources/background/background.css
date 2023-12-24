@@ -2,11 +2,22 @@ html {
     height: 100%;
 }
 
+*::-webkit-scrollbar {
+    background-color: transparent;
+    width: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: rgba(116, 116, 116, 0.5);
+    width: 100%;
+    border-radius: 10px;
+}
+
 body {
     padding: 0px;
     margin: 0px;
     height: 100%;
-    font-family: NanumGothicLight;
+    font-family: NotoSansKR sans-serif;
     background: white;
     overflow: hidden;
     -webkit-app-region: no-drag;
@@ -15,7 +26,6 @@ body {
 div#root {
     position: relative;
     top: 30px;
-    font-family: NanumGothicLight;
     user-select: none;
     height: 100%;
     width: 100%;
@@ -33,29 +43,36 @@ header {
 }
 
 @font-face {
-    font-family: NanumGothic;
-    src: url('../fonts/NanumGothic.otf');
+    font-family: NotoSansKR;
+    src: url('../fonts/NotoSansKR-VariableFont_wght.ttf');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
-    font-family: NanumGothicBold;
-    src: url('../fonts/NanumGothicBold.otf');
+    font-family: NotoSansKR-Light;
+    src: url('../fonts/NotoSansKR-Light.ttf');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
-    font-family: NanumGothicExtraBold;
-    src: url('../fonts/NanumGothicExtraBold.otf');
+    font-family: NotoSansKR-Regular;
+    src: url('../fonts/NotoSansKR-Regular.ttf');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
-    font-family: NanumGothicLight;
-    src: url('../fonts/NanumGothicLight.otf');
+    font-family: NotoSansKR-SemiBold;
+    src: url('../fonts/NotoSansKR-SemiBold.ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: NotoSansKR-Thin;
+    src: url('../fonts/NotoSansKR-Thin.ttf');
     font-weight: normal;
     font-style: normal;
 }
