@@ -1,15 +1,16 @@
 import React, { useContext, useState, useLayoutEffect } from "react";
-import { SelectedItem, SelectedItemContext, SelectedItemDispatch } from "../contexts/SelectedItemContext";
+import { RouteViewContext, RouteViewDispatch, RouteViewList } from "../contexts/RouteViewContext";
 
 type PanelItemBoxProps = {
-    item: SelectedItem,
+    routeView: React.ReactNode,
     name: string,
+    item: RouteViewList,
 }
 
 const PanelItemBox = (props: PanelItemBoxProps) => {
 
-    const [ selected, dispatch ] = [ useContext(SelectedItemContext), useContext(SelectedItemDispatch) ];
-    const [ bgColor, setBgColor ] = useState<string>(selected == "VIEW_AUCTION_LIST" ? 'black' : '#909090');
+    const [ context, dispatch ] = [ useContext(RouteViewContext), useContext(RouteViewDispatch) ];
+    const [ bgColor, setBgColor ] = useState<string>(context.name == props.item ? 'black' : '#909090');
 
     if(!dispatch) {
         throw new Error("Cannot find SelectedItemDispatch");
@@ -40,16 +41,21 @@ const PanelItemBox = (props: PanelItemBoxProps) => {
     
 
     const ItemClick = () => {
-        dispatch(props.item);
+        if(props.item != context.name) {
+            dispatch({
+                routeView: props.routeView,
+                name: props.item
+            });
+        }
     }
 
     useLayoutEffect(() => {
-        if(selected == props.item) {
+        if(context.name == props.item) {
             setBgColor("#909090");
         } else {
             setBgColor("black");
         }
-    }, [ selected ])
+    }, [ context.name ])
 
     return (
         <div style={PanelItemBoxStyle.BoxStyle} onClick={ItemClick}>

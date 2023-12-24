@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
-import { SelectedItemContext } from "../contexts/SelectedItemContext";
-
-import ListAuctionView from "./ListAuctionView";
+import React, { useContext } from "react";
+import { RecordListProvider } from "../contexts/RecordListContext";
+import { RouteViewContext } from "../contexts/RouteViewContext";
 
 const ScreenBoxStyle = {
     backgroundColor: "white",
@@ -11,22 +10,15 @@ const ScreenBoxStyle = {
 }
 
 const ScreenBox = (props: any) => {
-    const selected = useContext(SelectedItemContext);
-    // const [ view, setView ] = useState<React.ReactNode>(ListAuctionView);
-
-    // useEffect(
-    //     () => {
-    //         switch(selected) {
-    //             case "VIEW_AUCTION_LIST":
-    //                 setView(ListAuctionView);
-    //             break;
-    //         }
-    //     }, [ selected ]
-    // );
+    const context = useContext(RouteViewContext);
 
     return (
         <div style={ScreenBoxStyle}>
-            <ListAuctionView></ListAuctionView>
+            <RecordListProvider>
+            {
+                context.routeView
+            }
+            </RecordListProvider>
         </div>
     )
 }

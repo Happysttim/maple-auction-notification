@@ -1,16 +1,12 @@
 import PanelScreen from "./components/PanelScreen";
-import { RecordListProvider } from "./contexts/RecordListContext";
-
-import { SelectedItemProvider } from "./contexts/SelectedItemContext";
+import { RouteViewProvider } from "./contexts/RouteViewContext";
 
 const App = () => {
     return (
-        <SelectedItemProvider>
-            <RecordListProvider>
-                <PanelScreen>
-                </PanelScreen>
-            </RecordListProvider>
-        </SelectedItemProvider>
+        <RouteViewProvider>
+            <PanelScreen>
+            </PanelScreen>
+        </RouteViewProvider>
     );
 }
 
