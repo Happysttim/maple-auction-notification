@@ -8,7 +8,7 @@ export type RouteViewState = {
     name: RouteViewList
 }
 
-const SelectedItemReducer = (state: RouteViewState, action: RouteViewState): RouteViewState => {
+const SelectedItemReducer = (_: RouteViewState, action: RouteViewState): RouteViewState => {
     return action;
 }
 

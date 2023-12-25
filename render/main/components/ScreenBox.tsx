@@ -12,23 +12,13 @@ const ScreenBox = (props: any) => {
     const context = useContext(RouteViewContext);
 
     return (
-        <div style={ScreenBoxStyle}>
+        <RecordListProvider>
+            <div style={ScreenBoxStyle}>
             {
-                (
-                    context.name == "LIST_VIEW" ?
-                    (
-                        <RecordListProvider>
-                            { context.routeView }
-                        </RecordListProvider>
-                    ) :
-                    (
-                        <>
-                            { context.routeView }
-                        </>
-                    )
-                )
+                context.routeView
             }
-        </div>
+            </div>
+        </RecordListProvider>
     )
 }
 

@@ -1,8 +1,8 @@
-import React, { useState, useContext, useLayoutEffect, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { RecordListContext, RecordListDispatch } from "../contexts/RecordListContext";
 
 const ListViewHeader = () => {
-    const context = useContext(RecordListContext);
+    const recordContext = useContext(RecordListContext);
     const dispatch = useContext(RecordListDispatch);
 
     if(!dispatch) {
@@ -13,46 +13,45 @@ const ListViewHeader = () => {
     const [ amount, setAmount ] = useState(0);
 
     useEffect(() => {
-        if(!context.list) {
-            setMeso(0);
-            setAmount(0);
-        } else {
-            if(context.state != "CHECK" && context.state != "START") {
-                let addition = 0, start = 0;
-                
-                if(context.state == "CONCAT") {
-                    start = context.latestLength;
-                } else if(context.state == "CONDITION") {
-                    start = 0;
-                } 
+        if(recordContext.state != "CHECK") {
+            if(amount != recordContext.state.length) {
+                const start = (recordContext.state == "FILTER" || recordContext.state == "ADD") ? 0 : amount;
+                const diff = Math.abs(start - recordContext.filtered.length);
 
-                for(let i = 0; i < context.list.length; i++) {
-                    if(context.state == "ADD" && context.list[i].nSN == context.latestSN) {
+                let addition = 0;
+
+                for(let i = start; i < recordContext.filtered.length; i++) {
+                    if(recordContext.state == "ADD" && i == diff) {
                         break;
-                    } 
+                    }
 
-                    addition += context.list[i].pushType == 1 ? context.list[i].price : 0;
-                }
-    
-                switch(context.state) {
-                    case "CONCAT":
-                    case "ADD":
-                        setMeso(meso => meso + addition);
-                    break;
-                    case "CONDITION":
-                        setMeso(addition);
-                    break;
+                    if(recordContext.filtered[i].pushType == 1) {
+                        addition += recordContext.filtered[i].price;
+                    }    
                 }
 
-                setAmount(context.list.length);
-    
-                dispatch({
-                    type: "CHECK",
-                    victim: []
-                });
-            }   
+                if(recordContext.state == "ADD" || recordContext.state == "CONCAT") {
+                    setMeso(meso => meso + addition);
+                } else {
+                    setMeso(addition);
+                }
+
+                setAmount(recordContext.filtered.length);
+            }
+
+            dispatch({
+                type: "CHECK",
+            });
+        } else {
+            let addition = 0;
+            for(let i = 0; i < recordContext.filtered.length; i++) {
+                addition += recordContext.filtered[i].price;
+            }
+
+            setMeso(addition);
+            setAmount(recordContext.filtered.length);
         }
-    }, [ context.list ]);
+    }, [ recordContext.filtered ]);
 
     const HeaderStyle = {
         BoxStyle: {

@@ -15,6 +15,7 @@ type PanelBoxProps = {
 } 
 
 const PanelBox = ({ children }: PanelBoxProps) => {
+    React.Children
     return (
         <div style={PanelBoxStyle}>
             { children }

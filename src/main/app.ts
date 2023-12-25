@@ -43,6 +43,8 @@ export default class ElectronApp {
     private appsetId!: string;
     private nxCredential?: NXCredential;
 
+    private watcher: boolean = false;
+
     private windowOption: Electron.BrowserWindowConstructorOptions = {
         resizable: false,
         maximizable: false,
@@ -144,6 +146,10 @@ export default class ElectronApp {
                     notificate.show();
                 }
 
+                if(this.watcher) {
+                    this.mainWindow?.webContents.send('WATCHED');
+                }
+
                 this.nxrequest.request(toyPushAck);
             }
 
@@ -157,6 +163,11 @@ export default class ElectronApp {
 
         ipcMain.on('SHOW_ERROR', (_, [ title, content ]) => {
             dialog.showErrorBox(title, content);
+        });
+
+        ipcMain.on('START_WATCHER', (_) => {
+            this.watcher = true;
+            console.log("START WATCH!");
         });
         
         ipcMain.handle('LOGIN', async (_: IpcMainInvokeEvent, [loginType, id, password]): Promise<boolean> => {
