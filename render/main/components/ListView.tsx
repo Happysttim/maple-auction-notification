@@ -8,7 +8,7 @@ const ListView = (props: ListViewProps) => {
     const listRef = useRef<HTMLDivElement | null>(null);
 
     return (
-        <div ref={listRef} style={{overflowY: "auto", height: "100%"}}>
+        <div ref={listRef} style={{overflowY: "auto", height: "650px"}}>
             { props.children }
         </div>
     );

@@ -14,7 +14,6 @@ const Watcher = () => {
 
     const fetch = async () => {
         const auctionRecords = await window.ipcRenderer.invoke("AUCTION_HISTORY", 0) as AuctionRecord[];
-        console.log(`FETCH!`);
         await dispatch({
             type: "ADD",
             records: auctionRecords 
@@ -33,7 +32,7 @@ const Watcher = () => {
         setState(true);
     });
 
-    return (<></>)
+    return (<></>);
 }
 
 export default Watcher;

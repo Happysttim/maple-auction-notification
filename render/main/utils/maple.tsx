@@ -13,6 +13,17 @@ export type AuctionRecord = {
     new?: boolean
 };
 
+export const dateFormat = (s: string): Date => {
+    const date = s.split(" ");
+    const time = date[2].split(":");
+
+    if(date[1] == "오후") {
+        time[0] = (Number.parseInt(time[0]) + 12).toString();
+    }
+
+    return new Date(`${date[0]} ${time[0]}:${time[1]}`);
+}
+
 const maple = {
 
     worldToId(world: string): number {
@@ -74,7 +85,7 @@ const maple = {
                 return "노바";
         }
 
-        return id.toString();
+        return "";
     },
 
     toItemIcon(id: number): string {

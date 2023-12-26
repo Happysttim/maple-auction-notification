@@ -1,12 +1,12 @@
 import React, { createContext, Dispatch, useEffect, useReducer, useState } from "react";
-import { AuctionRecord } from "../utils/maple";
+import { AuctionRecord, dateFormat } from "../utils/maple";
 
 type FetchState = "START" | "CALL" | "END" | "NEW";
 
 export type AuctionState = "CONCAT" | "ADD" | "CHECK" | "ERROR" | "FILTER";
 
 export type Filter = {
-    pushType: 0 | 1 | 2,
+    pushType: number,
     worldId: number[],
     date?: {
         startDate: Date,
@@ -41,23 +41,12 @@ export const RecordListContext = createContext<RecordListState>({
 
 export const RecordListDispatch = createContext<Dispatch<RecordListAction> | null>(null);
 
-const dateFormat = (s: string): Date => {
-    const date = s.split(" ");
-    const time = date[2].split(":");
-
-    if(date[1] == "오후") {
-        time[0] = (Number.parseInt(time[0]) + 12).toString();
-    }
-
-    return new Date(`${date[0]} ${time[0]}:${time[1]}`);
-}
-
 const RecordListReducer = (state: RecordListState, action: RecordListAction): RecordListState => {
     const filter: Filter = state.filter;
 
     if(action.filter) {
-        if(action.filter.pushType) {
-            filter.pushType = action.filter.pushType;
+        if(!isNaN(action.filter.pushType!)) {
+            filter.pushType = action.filter.pushType!;
         }
 
         if(action.filter.worldId) {
@@ -88,7 +77,7 @@ const RecordListReducer = (state: RecordListState, action: RecordListAction): Re
             }
             
             if(filter.worldId.length > 0) {
-                if(filter.worldId.indexOf(record.worldId) == -1) {
+                if(!filter.worldId.includes(record.worldId)) {
                     return false;
                 }
             }
@@ -125,7 +114,7 @@ const RecordListReducer = (state: RecordListState, action: RecordListAction): Re
         case "FILTER":
             return {
                 list: state.list ?? [],
-                filtered: state.filtered,
+                filtered: action.type == "FILTER" ? target : state.filtered,
                 latest: state.latest,
                 state: action.type,
                 filter: filter

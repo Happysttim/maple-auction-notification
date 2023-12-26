@@ -82,7 +82,7 @@ export default class ElectronApp {
         this.mainWindow = new BrowserWindow(
             {
                 width: 900,
-                height: 770,
+                height: 820,
                 ...this.windowOption,
                 titleBarOverlay: {
                     color: 'white',
