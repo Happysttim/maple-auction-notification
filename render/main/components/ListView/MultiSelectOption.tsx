@@ -1,5 +1,5 @@
 import { useRef, useContext, useState } from "react";
-import { RecordListContext, RecordListDispatch } from "../contexts/RecordListContext";
+import { RecordListContext, RecordListDispatch } from "../../contexts/RecordListContext";
 
 type OptionProps = {
     id: number,

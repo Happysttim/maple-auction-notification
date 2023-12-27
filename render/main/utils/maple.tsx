@@ -18,7 +18,8 @@ export const dateFormat = (s: string): Date => {
     const time = date[2].split(":");
 
     if(date[1] == "오후") {
-        time[0] = (Number.parseInt(time[0]) + 12).toString();
+        const hour = Number.parseInt(time[0]);
+        time[0] = (hour < 12 ? hour + 12 : hour).toString();
     }
 
     return new Date(`${date[0]} ${time[0]}:${time[1]}`);

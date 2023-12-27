@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, Dispatch } from "react";
-import ListAuctionView from "../components/ListAuctionView";
+import ListAuctionView from "../components/ListView/ListAuctionView";
 
 export type RouteViewList = "LIST_VIEW" | "OPTION";
 

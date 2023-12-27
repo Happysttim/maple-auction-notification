@@ -8,9 +8,9 @@ export type AuctionState = "CONCAT" | "ADD" | "CHECK" | "ERROR" | "FILTER";
 export type Filter = {
     pushType: number,
     worldId: number[],
-    date?: {
-        startDate: Date,
-        endDate: Date,
+    date: {
+        startDate?: Date,
+        endDate?: Date,
     },
 }
 
@@ -36,6 +36,10 @@ export const RecordListContext = createContext<RecordListState>({
     filter: {
         pushType: 0,
         worldId: [],
+        date: {
+            startDate: undefined,
+            endDate: undefined,
+        }
     }
 });
 
@@ -82,7 +86,7 @@ const RecordListReducer = (state: RecordListState, action: RecordListAction): Re
                 }
             }
             
-            if(filter.date) {
+            if(filter.date.startDate && filter.date.endDate) {
                 const date = dateFormat(record.date);
                 if(filter.date.startDate > date || filter.date.endDate < date) {
                     return false;
@@ -139,14 +143,17 @@ export const RecordListProvider = ({ children }: { children: React.ReactNode }) 
         state: "CHECK",
         filter: {
             pushType: 0,
-            worldId: []
+            worldId: [],
+            date: {
+                startDate: undefined,
+                endDate: undefined,
+            }
         }
     });
 
     const load = async (lastSN: number) => {
         const auctionRecords = await window.ipcRenderer.invoke("AUCTION_HISTORY", lastSN) as AuctionRecord[];
         await new Promise((resolve) => setTimeout(() => { resolve(1) }, 1000));
-        console.log(`FETCHED! ${lastSN}`);
         await setFetchState((!auctionRecords || auctionRecords.length < 20) ? "END" : "CALL");
         await dispatch({
             type: "CONCAT",
@@ -159,8 +166,6 @@ export const RecordListProvider = ({ children }: { children: React.ReactNode }) 
             load(context.latest);
         }
     }, [ context.state ]);
-
-    console.log(`RecordListContext`);
 
     return (
         <RecordListContext.Provider value={ context }>

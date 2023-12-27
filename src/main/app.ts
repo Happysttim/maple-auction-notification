@@ -1,8 +1,8 @@
 import * as path from 'path';
+import fs from 'fs';
 import { app, BrowserWindow, Tray, ipcMain, Menu, nativeImage, IpcMainInvokeEvent, Notification, dialog, IpcMainEvent } from 'electron';
 import electronIsDev from 'electron-is-dev';
 import ToyClient from '../network/toy-client';
-import fcm from '../fcm.json';
 import { PushReceiver } from '@eneris/push-receiver';
 import UuidLike from '../utils/uuid-like';
 import NXToyTokenRequest from '../https/sdk-push/push-token';
@@ -19,12 +19,17 @@ import { LogoutSVCRequest, LogoutSVCResponse } from '../https/m-api/logout-svc';
 import AuctionRequest from '../network/packet/request/auction-request';
 import AuctionResponse, { Record as AuctionRecord } from '../network/packet/response/auction-response';
 
+import { config } from 'dotenv'
+import PingRequest from 'src/network/packet/request/ping-request';
+import { PushType, getConfig, saveConfig } from 'src/utils/config';
+
 const BASE_URL = 'http://localhost:5173';
 
 type NXCredential = {
     npsn: number,
     npToken: string,
-    dwAccountId: number
+    dwAccountId: number,
+    session: string,
 };
 
 export default class ElectronApp {
@@ -44,6 +49,7 @@ export default class ElectronApp {
     private nxCredential?: NXCredential;
 
     private watcher: boolean = false;
+    private pushConfig!: PushType;
 
     private windowOption: Electron.BrowserWindowConstructorOptions = {
         resizable: false,
@@ -58,14 +64,16 @@ export default class ElectronApp {
     };
 
     constructor() {
+        config();
         this.uuid = UuidLike.createUUID();
         this.uuid2 = UuidLike.createUUID2();
         this.appsetId = UuidLike.createUUID();
         this.toyClient = new ToyClient();
         this.nxrequest = new NXRequest();
         this.pushReceiver = new PushReceiver({
-            senderId: fcm.messagingSenderId
+            senderId: process.env.HANDSPLUS_SENDER_ID ?? ""
         });
+        this.pushConfig = getConfig();
     }
 
     async initNotifcate() {
@@ -126,23 +134,41 @@ export default class ElectronApp {
         this.loginWindow.webContents.openDevTools();
     }
 
+    ping() {
+        const interval = setInterval(() => {
+            if(this.toyClient.isConnect && this.nxCredential) {
+                const pingRequest: PingRequest = new PingRequest();
+                pingRequest.set({
+                    loginToken: this.nxCredential.session,
+                    adid: this.uuid
+                });
+
+                this.toyClient.request(pingRequest, LoginResponse).then(response => {
+                    this.nxCredential!.session = response.session!;
+                });
+            } else {
+                clearInterval(interval);
+            }
+        }, 120000);
+    }
+
     initHook() {
 
         this.pushReceiver.onNotification(notificate => {
             if(this.nxCredential) { 
                 const data = <FcmMessage> notificate.message.data;
                 const toyPushAck: ToyPushAck = new ToyPushAck(this.uuid2, this.nxCredential.npsn, data.pushId, notificate.persistentId);
-                
-                if(Notification.isSupported()) {
+
+                if(Notification.isSupported() && this.pushConfig.isPush && (this.pushConfig.type == 0 || data.extension?.noticeType == this.pushConfig.type)) {
                     const notificate = new Notification({
                         title: "경매장 알림",
                         body: data.body
                     });
-        
+
                     notificate.on('click', () => {
                         this.mainWindow?.show();
                     });
-        
+                    
                     notificate.show();
                 }
 
@@ -159,6 +185,11 @@ export default class ElectronApp {
             if(this.toyClient.isConnect) {
                 this.toyClient.end();
             }
+            app.dock.hide();
+        });
+
+        this.mainWindow?.on("close", () => {
+            this.mainWindow!.hide();
         });
 
         ipcMain.on('SHOW_ERROR', (_, [ title, content ]) => {
@@ -167,7 +198,10 @@ export default class ElectronApp {
 
         ipcMain.on('START_WATCHER', (_) => {
             this.watcher = true;
-            console.log("START WATCH!");
+        });
+
+        ipcMain.on('SET_PUSH_TYPE', (_, [ config ]) => {
+            this.pushConfig = saveConfig(config);
         });
         
         ipcMain.handle('LOGIN', async (_: IpcMainInvokeEvent, [loginType, id, password]): Promise<boolean> => {
@@ -216,7 +250,8 @@ export default class ElectronApp {
                     this.nxCredential = {
                         npsn: signInResponse.result?.npSN!,
                         npToken: signInResponse.result?.npToken!,
-                        dwAccountId: loginResponse.dwAccountId!
+                        dwAccountId: loginResponse.dwAccountId!,
+                        session: loginResponse.session!
                     };
 
                     const tokenRequest = new NXToyTokenRequest(
@@ -229,6 +264,7 @@ export default class ElectronApp {
                     
                     await this.nxrequest.request(tokenRequest);
 
+                    this.ping();
                     this.initMainWindow();
                     this.loginWindow.destroy();
                 }
@@ -299,7 +335,7 @@ export default class ElectronApp {
         this.contextMenu = Menu.buildFromTemplate([
             {label: '알람', type: 'radio'},
             {label: '프로그램 열기', type: 'normal', click: () => {
-                // TODO
+                
             }}
         ]);
         this.tray.setContextMenu(this.contextMenu);

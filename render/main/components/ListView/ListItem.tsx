@@ -1,5 +1,5 @@
 import React from "react";
-import { AuctionRecord } from "../utils/maple";
+import { AuctionRecord } from "../../utils/maple";
 
 type ListItemProps = {
     children: React.ReactNode, 

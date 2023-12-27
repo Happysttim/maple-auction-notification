@@ -44,13 +44,16 @@
   },
   "dependencies": {
     "@eneris/push-receiver": "^3.1.5",
+    "@types/react-datepicker": "^4.19.4",
     "@types/uuid": "^9.0.7",
     "axios": "^1.6.0",
+    "dotenv": "^16.3.1",
     "electron-store": "^8.1.0",
     "iconv-lite": "^0.6.3",
     "long": "^5.2.3",
     "pkcs7": "^1.0.4",
     "react": "^18.2.0",
+    "react-datepicker": "^4.25.0",
     "react-dom": "^18.2.0",
     "sqlite3": "^5.1.6"
   }

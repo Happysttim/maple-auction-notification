@@ -1,5 +1,5 @@
 import React from 'react';
-import maple from '../utils/maple';
+import maple from '../../utils/maple';
 
 type ItemImageProps = {
     itemCode: number,

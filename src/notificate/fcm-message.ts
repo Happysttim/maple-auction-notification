@@ -14,7 +14,7 @@ export default interface FcmMessage extends MessageCustomData {
         countryCode?: string,
         ackUrl?: string,
         timestamp?: string,
-        noticeType?: string
+        noticeType?: number
     },
     pushId: string,
     console: string,
