@@ -1,6 +1,6 @@
 import React, { useContext, useLayoutEffect, useState } from "react";
-import { RecordListDispatch } from "../../contexts/RecordListContext";
-import { AuctionRecord } from "../../utils/maple";
+import { RecordListDispatch } from "../contexts/RecordListContext";
+import { AuctionRecord } from "../utils/maple";
 
 window.ipcRenderer.send('START_WATCHER');
 

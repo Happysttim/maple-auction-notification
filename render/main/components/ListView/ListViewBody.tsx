@@ -33,23 +33,25 @@ const ListViewBody = () => {
                                                 const date = dateFormat(record.date)
                                                 const now = new Date();
 
-                                                const [ month, day, hour, min, sec ] = [
+                                                const diffTime = Math.abs((now.getHours() * 60 * 60 + now.getMinutes() * 60 + now.getSeconds()) - (date.getHours() * 60 * 60 + date.getMinutes() * 60 + date.getSeconds()));
+                                                const diffSec = diffTime % 60;
+                                                const diffMin = Math.floor(diffTime / 60);
+                                                const diffHour = Math.floor(diffMin / 60); 
+
+                                                const [ month, day ] = [
                                                     now.getMonth() - date.getMonth(),
                                                     now.getDate() - date.getDate(),
-                                                    now.getHours() - date.getHours(),
-                                                    now.getMinutes() - date.getMinutes(),
-                                                    now.getSeconds() - date.getSeconds()
                                                 ];
 
                                                 if(month == 0) {
                                                     if(day == 0) {
-                                                        if(hour == 0) {
-                                                            if(min == 0) {
-                                                                return <>{sec}초 전</>
+                                                        if(diffHour == 0) {
+                                                            if(diffMin == 0) {
+                                                                return <>{diffSec}초 전</>            
                                                             }
-                                                            return <>{min}분 전</> 
+                                                            return <>{diffMin}분 전</>
                                                         }
-                                                        return <>{hour}시간 전</>
+                                                        return <>{diffHour}시간 전</>
                                                     }
                                                     return <>{day}일 전</>
                                                 }
@@ -69,6 +71,26 @@ const ListViewBody = () => {
                                             record.pushType == 1 ? new Intl.NumberFormat("en-US").format(record.price) + "메소에 판매" : "만료"
                                         }되었습니다.
                                     </span>
+                                    {
+                                        (() => {
+                                            if(record.new) {
+                                                return (
+                                                    <div style={{
+                                                        display: "inline-block",
+                                                        width: "10px",
+                                                        height: "10px",
+                                                        borderRadius: "6em",
+                                                        backgroundColor: "red",
+                                                        float: "right",
+                                                        margin: "4px"
+                                                    }}>
+                                                    </div>
+                                                );
+                                            }
+
+                                            return <></>
+                                        })()
+                                    }
                                 </div>
                             </ListItemContent>
                         </ListItem>

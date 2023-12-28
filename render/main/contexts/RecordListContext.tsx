@@ -108,7 +108,7 @@ const RecordListReducer = (state: RecordListState, action: RecordListAction): Re
             }
         case "ADD":
             return {
-                list: action.records!.concat(state.list),
+                list: [action.records![0]].concat(state.list),
                 filtered: target.concat(state.filtered),
                 latest: state.latest,
                 state: "ADD",

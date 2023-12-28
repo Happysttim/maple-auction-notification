@@ -14,7 +14,7 @@ const BorderBox = (props: BorderBoxProps) => {
         BoxStyle: {
             width: props.width,
             height: props.height,
-            borderStyle: props.borderStyle,
+            border: props.borderStyle,
             borderRadius: "12px",
             padding: "12px",
             margin: "8px",

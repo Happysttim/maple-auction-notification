@@ -1,6 +1,5 @@
 import * as path from 'path';
-import fs from 'fs';
-import { app, BrowserWindow, Tray, ipcMain, Menu, nativeImage, IpcMainInvokeEvent, Notification, dialog, IpcMainEvent } from 'electron';
+import { app, BrowserWindow, Tray, ipcMain, Menu, nativeImage, IpcMainInvokeEvent, Notification, dialog } from 'electron';
 import electronIsDev from 'electron-is-dev';
 import ToyClient from '../network/toy-client';
 import { PushReceiver } from '@eneris/push-receiver';
@@ -11,7 +10,7 @@ import ToyPushAck from '../https/sdk-push/push-ack';
 import NXRequest from '../https/nx-request';
 import { HttpsCryptType, NXCrypt } from '../crypt/toy-crypt';
 import { ByteUtils } from '../utils/byte-utils';
-import FcmMessage from '../notificate/fcm-message';
+import { FcmMessage, Extension } from '../notificate/fcm-message';
 import LoginResponse from '../network/packet/response/login-response';
 import LoginRequest from '../network/packet/request/login-request';
 import { LogoutSVCRequest, LogoutSVCResponse } from '../https/m-api/logout-svc';
@@ -107,7 +106,10 @@ export default class ElectronApp {
         }
 
         this.mainWindow.show();
-        this.mainWindow.webContents.openDevTools();
+        this.mainWindow.on("close", e => {
+            e.preventDefault();
+            this.mainWindow!.hide();
+        });
     }
 
     initLoginWindow() {
@@ -131,7 +133,6 @@ export default class ElectronApp {
         }
 
         this.loginWindow.show();
-        this.loginWindow.webContents.openDevTools();
     }
 
     ping() {
@@ -157,9 +158,10 @@ export default class ElectronApp {
         this.pushReceiver.onNotification(notificate => {
             if(this.nxCredential) { 
                 const data = <FcmMessage> notificate.message.data;
+                const extension = <Extension> JSON.parse(data.extension);
                 const toyPushAck: ToyPushAck = new ToyPushAck(this.uuid2, this.nxCredential.npsn, data.pushId, notificate.persistentId);
 
-                if(Notification.isSupported() && this.pushConfig.isPush && (this.pushConfig.type == 0 || data.extension?.noticeType == this.pushConfig.type)) {
+                if(Notification.isSupported() && this.pushConfig.isPush && (this.pushConfig.type == 0 || extension.noticeType == this.pushConfig.type)) {
                     const notificate = new Notification({
                         title: "경매장 알림",
                         body: data.body
@@ -176,7 +178,7 @@ export default class ElectronApp {
                     this.mainWindow?.webContents.send('WATCHED');
                 }
 
-                this.nxrequest.request(toyPushAck);
+                // this.nxrequest.request(toyPushAck);
             }
 
         });
@@ -185,11 +187,8 @@ export default class ElectronApp {
             if(this.toyClient.isConnect) {
                 this.toyClient.end();
             }
-            app.dock.hide();
-        });
 
-        this.mainWindow?.on("close", () => {
-            this.mainWindow!.hide();
+            app.quit();
         });
 
         ipcMain.on('SHOW_ERROR', (_, [ title, content ]) => {
@@ -333,9 +332,13 @@ export default class ElectronApp {
     initTray() {
         this.tray = new Tray(nativeImage.createEmpty());
         this.contextMenu = Menu.buildFromTemplate([
-            {label: '알람', type: 'radio'},
+            {label: '프로그램 닫기', type: 'normal', click: () => {
+                app.exit();
+            }},
             {label: '프로그램 열기', type: 'normal', click: () => {
-                
+                if(this.mainWindow) {
+                    this.mainWindow.show();
+                }
             }}
         ]);
         this.tray.setContextMenu(this.contextMenu);

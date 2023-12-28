@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { RecordListProvider } from "../contexts/RecordListContext";
 import { RouteViewContext } from "../contexts/RouteViewContext";
+import Watcher from "./Watcher";
 
 const ScreenBoxStyle = {
     backgroundColor: "white",
@@ -13,6 +14,7 @@ const ScreenBox = (props: any) => {
 
     return (
         <RecordListProvider>
+            <Watcher/>
             <div style={ScreenBoxStyle}>
             {
                 context.routeView

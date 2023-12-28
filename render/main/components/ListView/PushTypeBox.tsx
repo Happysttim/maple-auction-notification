@@ -1,4 +1,4 @@
-import { useRef, useContext } from "react";
+import { useRef, useContext, useEffect } from "react";
 import { RecordListContext, RecordListDispatch } from "../../contexts/RecordListContext";
 
 const Style = {
@@ -24,10 +24,21 @@ const PushTypeBox = () => {
         throw new Error("Cannot find RecordListDispatch");
     }
 
+    useEffect(() => {
+        if(recordContext.filter.pushType == 0) {
+            sellRef.current!.checked = expireRef.current!.checked = true;
+        } else {
+            sellRef.current!.checked = recordContext.filter.pushType == 1;
+            expireRef.current!.checked = recordContext.filter.pushType == 2;
+        }
+    }, []);
+
     const changePushType = () => {
         const type = ((): number => {
-            if((sellRef.current!.checked && expireRef.current!.checked) || (!sellRef.current!.checked && !expireRef.current!.checked)) {
+            if(sellRef.current!.checked && expireRef.current!.checked) {
                 return 0;
+            } else if(!sellRef.current!.checked && !expireRef.current!.checked) {
+                return 3;
             } else {
                 return sellRef.current!.checked ? 1 : 2;
             }

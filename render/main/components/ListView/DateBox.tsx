@@ -70,13 +70,23 @@ const DateBox = () => {
                     }
                 }
             });
+        } else {
+            dispatch({
+                type: "FILTER",
+                filter: {
+                    date: {
+                        startDate: startDate,
+                        endDate: endDate
+                    }
+                }
+            });
         }
         setToggle(!isEnable);
     }
 
     const DateButton = forwardRef((props: { value: Date, onClick: () => void }, ref: React.LegacyRef<HTMLInputElement>) => {
         return (
-            <input type="button" style={Style.ButtonStyle} value={props.value.toString()} onClick={props.onClick} readOnly={isEnable} ref={ref}/>
+            <input type="button" style={Style.ButtonStyle} value={props.value.toString()} onClick={props.onClick} ref={ref}/>
         )
     });
 
@@ -99,9 +109,9 @@ const DateBox = () => {
                     <input type="checkbox" onChange={() => onToggle()}></input>
                 </label>
             </div>
-            <DatePicker ref={startRef} selected={startDate} dateFormat="yyyy-MM-dd" dateFormatCalendar="yyyy-MM" timeFormat="HH:mm" onChange={(date) => setDate("START", date)} customInput={<DateButton onClick={() => { startRef.current!.setOpen(true) }} value={startDate} />} />
+            <DatePicker ref={startRef} selected={startDate} showTimeSelect dateFormat="yyyy-MM-dd" dateFormatCalendar="yyyy-MM" timeFormat="HH:mm" onChange={(date) => setDate("START", date)} customInput={<DateButton onClick={() => { startRef.current!.setOpen(true) }} value={startDate} />} />
             <span>~</span>
-            <DatePicker ref={endRef} selected={endDate} dateFormat="yyyy-MM-dd" dateFormatCalendar="yyyy-MM" timeFormat="HH:mm" onChange={(date) => setDate("END", date)} customInput={<DateButton onClick={() => { endRef.current!.setOpen(true)}} value={endDate} />} />
+            <DatePicker ref={endRef} selected={endDate} showTimeSelect dateFormat="yyyy-MM-dd" dateFormatCalendar="yyyy-MM" timeFormat="HH:mm" onChange={(date) => setDate("END", date)} customInput={<DateButton onClick={() => { endRef.current!.setOpen(true)}} value={endDate} />} />
         </div>
     )
 }
