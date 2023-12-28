@@ -1,7 +1,6 @@
 https.txt
 packet.txt
 
-src/fcm.json
 src/test/
 src/**/*.js
 dist/
