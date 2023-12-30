@@ -5,3 +5,4 @@ src/test/
 src/**/*.js
 dist/
 node_modules/
+.env

@@ -2,10 +2,11 @@ import { NXCrypt } from "../crypt/toy-crypt";
 import { ReadBuffer , WriteBuffer } from "./packet/packet-buffer";
 import { IRequest, IResponse } from "./packet/toy-packet"
 import * as net from 'node:net';
+import 'dotenv/config';
 
 const serverOpts: net.NetConnectOpts = {
-    port: 8605,
-    host: '175.207.0.45'
+    port: parseInt(process.env.PORT ?? "8605"),
+    host: process.env.SERVER_IP
 };
 
 export default class ToyClient {

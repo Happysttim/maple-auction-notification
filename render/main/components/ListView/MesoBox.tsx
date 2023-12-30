@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import { RecordListContext, RecordListDispatch } from "../../contexts/RecordListContext";
-import Long from "long";
 
 const Style = {
     BoxStyle: {
@@ -31,12 +30,12 @@ const MesoBox = () => {
         throw new Error("Cannot find RecordListDispatch");
     }
 
-    const [ meso, setMeso ] = useState<Long>(new Long(0));
+    const [ meso, setMeso ] = useState(0);
     const [ amount, setAmount ] = useState(0);
 
     useEffect(() => {
         if(recordContext.state != "ERROR") {
-            let addition = new Long(0), before = new Long(0), start = 0, end = 0;
+            let addition = 0, start = 0, end = 0;
 
             switch(recordContext.state) {
                 case "ADD":
@@ -55,13 +54,11 @@ const MesoBox = () => {
 
             for(let i = start; i < end; i++) {
                 if(recordContext.filtered[i].pushType == 1) {
-                    const price = new Long(recordContext.filtered[i].price);
-                    addition = before.add(price);
-                    before = addition;
+                    addition += recordContext.filtered[i].price;
                 }
             }
 
-            setMeso((recordContext.state == "ADD" || recordContext.state == "CONCAT") ? meso.add(addition) : addition);
+            setMeso(meso => (recordContext.state == "ADD" || recordContext.state == "CONCAT") ? meso + addition : addition);
             setAmount(recordContext.filtered.length);
 
             if(recordContext.state != "CHECK") {
@@ -75,7 +72,7 @@ const MesoBox = () => {
     return (
         <div style={Style.BoxStyle}>
             <div style={Style.ContentStyle.BoxStyle}>
-                <span>{ new Intl.NumberFormat("en-US").format(meso.toNumber()) }메소</span>
+                <span>{ meso.toLocaleString() }메소</span>
             </div>
             <div style={Style.ContentStyle.BoxStyle}>
                 <span>{ amount }건</span>

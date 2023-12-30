@@ -14,13 +14,11 @@ import { FcmMessage, Extension } from '../notificate/fcm-message';
 import LoginResponse from '../network/packet/response/login-response';
 import LoginRequest from '../network/packet/request/login-request';
 import { LogoutSVCRequest, LogoutSVCResponse } from '../https/m-api/logout-svc';
-
 import AuctionRequest from '../network/packet/request/auction-request';
 import AuctionResponse, { Record as AuctionRecord } from '../network/packet/response/auction-response';
-
-import { config } from 'dotenv'
 import PingRequest from 'src/network/packet/request/ping-request';
 import { PushType, getConfig, saveConfig } from 'src/utils/config';
+import 'dotenv/config';
 
 const BASE_URL = 'http://localhost:5173';
 
@@ -55,15 +53,19 @@ export default class ElectronApp {
         maximizable: false,
         focusable: true,
         titleBarStyle: 'hidden',
+        titleBarOverlay: {
+            color: 'white',
+            symbolColor: 'black',
+            height: 30
+        },
         webPreferences: {
             contextIsolation: true,
             nodeIntegration: true,
             preload: path.join(__dirname, './preload.js')
-        }
+        },
     };
 
     constructor() {
-        config();
         this.uuid = UuidLike.createUUID();
         this.uuid2 = UuidLike.createUUID2();
         this.appsetId = UuidLike.createUUID();
@@ -91,11 +93,6 @@ export default class ElectronApp {
                 width: 900,
                 height: 820,
                 ...this.windowOption,
-                titleBarOverlay: {
-                    color: 'white',
-                    symbolColor: 'black',
-                    height: 30
-                }
             }
         );
 
@@ -118,11 +115,6 @@ export default class ElectronApp {
                 width: 500,
                 height: 350,
                 ...this.windowOption,
-                titleBarOverlay: {
-                    color: 'black',
-                    symbolColor: 'white',
-                    height: 30
-                }
             }
         );
 
@@ -133,6 +125,7 @@ export default class ElectronApp {
         }
 
         this.loginWindow.show();
+        this.loginWindow.webContents.openDevTools();
     }
 
     ping() {
@@ -204,8 +197,9 @@ export default class ElectronApp {
         });
         
         ipcMain.handle('LOGIN', async (_: IpcMainInvokeEvent, [loginType, id, password]): Promise<boolean> => {
-            if(id.trim() == "" || password.trim() == "")
+            if(id.trim() == "" || password.trim() == "") {
                 return false;
+            }  
 
             if(!this.toyClient.isConnect) {
                 this.toyClient.connect();

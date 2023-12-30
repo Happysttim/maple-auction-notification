@@ -68,7 +68,7 @@ const ListViewBody = () => {
                                         fontSize: "11pt"
                                     }}>
                                         개가 {
-                                            record.pushType == 1 ? new Intl.NumberFormat("en-US").format(record.price) + "메소에 판매" : "만료"
+                                            record.pushType == 1 ? record.price.toLocaleString() + "메소에 판매" : "만료"
                                         }되었습니다.
                                     </span>
                                     {
