@@ -72,8 +72,8 @@ export default class NXRequest {
         [key in NPParamsKey]?: unknown
     }) {
         const npparamsObj: NPParams = {
-            sdkVer: options['sdkVer'] ?? "1.5.66.1",
-            os: options['os'] ?? "android",
+            sdkVer: options['sdkVer'] ?? '1.5.66.1',
+            os: options['os'] ?? 'android',
             svcID: options['svcID'] ?? 1118,
             npToken: options['npToken'] ?? 0,
             appVersionNumber: options['appVersionNumber'] ?? 58,
@@ -104,34 +104,28 @@ export default class NXRequest {
         key?: number
     }): Promise<V> {
         const data = nxRequest.body.encrypted || JSON.stringify(nxRequest.body); 
-
-        try {
-            const response = await axios.create({
-                baseURL: nxRequest.host,
-                headers: nxRequest.header,
-                responseType: "arraybuffer"
-            })[nxRequest.method](nxRequest.path, data);
-            
-            if(!response.data || response.data != "") {
-                if(responseOptions != null) {
-                    return JSON.parse(
-                        httpCrypt.decrypt(
-                            response.data,
-                            responseOptions.decryptType,
-                            responseOptions.key ?? 0
-                        ).toString()
-                    );
-                }
-                
+        const response = await axios.create({
+            baseURL: nxRequest.host,
+            headers: nxRequest.header,
+            responseType: 'arraybuffer'
+        })[nxRequest.method](nxRequest.path, data);
+        
+        if(!response.data || response.data != '') {
+            if(responseOptions != null) {
                 return JSON.parse(
-                    response.data
+                    httpCrypt.decrypt(
+                        response.data,
+                        responseOptions.decryptType,
+                        responseOptions.key ?? 0
+                    ).toString()
                 );
             }
-
-            return <V>{};
-
-        } catch(e) {
-            throw e;
+            
+            return JSON.parse(
+                response.data
+            );
         }
+
+        return <V>{};
     }
 }

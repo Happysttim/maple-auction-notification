@@ -1,5 +1,5 @@
-import { WriteBuffer } from "../packet-buffer";
-import { IRequest } from "../toy-packet";
+import { WriteBuffer } from '../packet-buffer';
+import { IRequest } from '../toy-packet';
 
 export default class AuctionRequest implements IRequest {
     readonly packetId: number = 23;

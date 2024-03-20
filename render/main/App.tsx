@@ -1,5 +1,5 @@
-import PanelScreen from "./components/PanelScreen";
-import { RouteViewProvider } from "./contexts/RouteViewContext";
+import PanelScreen from './components/PanelScreen';
+import { RouteViewProvider } from './contexts/RouteViewContext';
 
 const App = () => {
     return (
@@ -8,6 +8,6 @@ const App = () => {
             </PanelScreen>
         </RouteViewProvider>
     );
-}
+};
 
 export default App;

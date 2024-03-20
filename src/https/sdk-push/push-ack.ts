@@ -1,4 +1,4 @@
-import { IRequest, Host, Header, BodyMessage, IResponse } from '../nx-request';
+import { IRequest, Host, Header, BodyMessage } from '../nx-request';
 
 export default class NXToyPushAck implements IRequest {
 
@@ -15,27 +15,27 @@ export default class NXToyPushAck implements IRequest {
         this.path = '/sdk/push/ack';
         this.method = 'post';
         this.header = {
-            "channel_id": null,
-            "Content-Type": "application/json",
-            "timeZone": 0,
-            "x-toy-service-id": 1118,
-            "gid": 1118,
-            "guid": npsn,
-            "gcid": null,
-            "gsid": null,
-            "world_id": null,
+            'channel_id': null,
+            'Content-Type': 'application/json',
+            'timeZone': 0,
+            'x-toy-service-id': 1118,
+            'gid': 1118,
+            'guid': npsn,
+            'gcid': null,
+            'gsid': null,
+            'world_id': null,
         };
         this.body = {
-            svcID: "1118",
+            svcID: '1118',
             pushId: pushId,
-            console: "0",
+            console: '0',
             utc: 0,
             countryCode: 8,
             messageId: messageId,
             abGroup: 0,
             udid: uuid2,
             npsn: npsn,
-            platform: "1"
-        }
+            platform: '1'
+        };
     }
 }

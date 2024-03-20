@@ -42,7 +42,7 @@ export class ReadBuffer {
         return Converter.toInt64(this.buffer, this.readPos - 8);
     }
 
-    public decodeBool(): Boolean {
+    public decodeBool(): boolean {
         return this.decodeByte() == 1;
     }
 
@@ -52,7 +52,7 @@ export class ReadBuffer {
 
     public decodeString(): string {
         let int16 = Converter.toInt16(this.buffer, this.readPos);
-        let i2 = this.readPos + 1;
+        const i2 = this.readPos + 1;
 
         int16 += int16 < 0 ? 65536 : 0;
         this.readPos += int16 + 2;
@@ -60,10 +60,10 @@ export class ReadBuffer {
             const bArr = new Uint8Array(int16);
             bArr.set(this.buffer.subarray(i2 + 1, int16 + (i2 + 1)));
 
-            return new TextDecoder("euc-kr").decode(bArr);
+            return new TextDecoder('euc-kr').decode(bArr);
         }
 
-        return "";
+        return '';
     }
 
     public readSubID(): number {

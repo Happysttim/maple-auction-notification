@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react';
 
 type PushType = {
     isPush: boolean,
@@ -7,17 +7,17 @@ type PushType = {
 
 const Style = {
     BoxStyle: {
-        display: "flex" as const,
-        width: "inherit",
-        marginTop: "12px"
+        display: 'flex' as const,
+        width: 'inherit',
+        marginTop: '12px'
     },
 
     LabelStyle: {
-        letterSpacing: "-1pt",
-        fontSize: "12pt",
-        marginRight: "24px"
+        letterSpacing: '-1pt',
+        fontSize: '12pt',
+        marginRight: '24px'
     }
-}
+};
 
 const PushOption = () => {
     const sellRef = useRef<HTMLInputElement | null>(null);
@@ -61,20 +61,20 @@ const PushOption = () => {
                 type: 0,
             });
         }
-    }
+    };
 
     return (
         <div style={Style.BoxStyle}>
             <label style={Style.LabelStyle}>
                 <span>판매알림</span>
-                <input type="checkbox" ref={sellRef} onChange={() => onChange()}></input>
+                <input type='checkbox' ref={sellRef} onChange={() => onChange()}></input>
             </label>
             <label style={Style.LabelStyle}>
                 <span>만료알림</span>
-                <input type="checkbox" ref={expireRef} onChange={() => onChange()}></input>
+                <input type='checkbox' ref={expireRef} onChange={() => onChange()}></input>
             </label>
         </div>
     );
-}
+};
 
 export default PushOption;

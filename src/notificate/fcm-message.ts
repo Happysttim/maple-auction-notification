@@ -1,4 +1,4 @@
-import { MessageCustomData } from "@eneris/push-receiver/dist/types";
+import { MessageCustomData } from '@eneris/push-receiver/dist/types';
 
 export type Extension = {
     contentType: string,
@@ -24,4 +24,4 @@ export interface FcmMessage extends MessageCustomData {
     body: string,
     meta: string,
     foreground: string,
-};
+}

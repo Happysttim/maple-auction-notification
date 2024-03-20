@@ -1,9 +1,9 @@
-import React, { createContext, Dispatch, useEffect, useReducer, useState } from "react";
-import { AuctionRecord, dateFormat } from "../utils/maple";
+import React, { createContext, Dispatch, useEffect, useReducer, useState } from 'react';
+import { AuctionRecord, dateFormat } from '../utils/maple';
 
-type FetchState = "START" | "CALL" | "END" | "NEW";
+type FetchState = 'START' | 'CALL' | 'END' | 'NEW';
 
-export type AuctionState = "CONCAT" | "ADD" | "CHECK" | "ERROR" | "FILTER";
+export type AuctionState = 'CONCAT' | 'ADD' | 'CHECK' | 'ERROR' | 'FILTER';
 
 export type Filter = {
     pushType: number,
@@ -32,7 +32,7 @@ export const RecordListContext = createContext<RecordListState>({
     list: [],
     filtered: [],
     latest: 0,
-    state: "CHECK",
+    state: 'CHECK',
     filter: {
         pushType: 0,
         worldId: [],
@@ -63,9 +63,9 @@ const RecordListReducer = (state: RecordListState, action: RecordListAction): Re
     }
 
     const target = (((): AuctionRecord[] => {
-        if(action.type == "FILTER") {
+        if(action.type == 'FILTER') {
             return state.list;
-        } else if(action.type == "ADD") {
+        } else if(action.type == 'ADD') {
             return [
                 action.records![0]
             ];
@@ -98,49 +98,49 @@ const RecordListReducer = (state: RecordListState, action: RecordListAction): Re
     );
 
     switch(action.type) {
-        case "CONCAT":
+        case 'CONCAT':
             return {
                 list: state.list.concat(action.records ?? []),
                 filtered: state.filtered.concat(target),
                 latest: action.records![action.records!.length - 1].nSN, 
-                state: "CONCAT",
+                state: 'CONCAT',
                 filter: filter
-            }
-        case "ADD":
+            };
+        case 'ADD':
             return {
                 list: [action.records![0]].concat(state.list),
                 filtered: target.concat(state.filtered),
                 latest: state.latest,
-                state: "ADD",
+                state: 'ADD',
                 filter: filter
-            }
-        case "CHECK":
-        case "FILTER":
+            };
+        case 'CHECK':
+        case 'FILTER':
             return {
                 list: state.list ?? [],
-                filtered: action.type == "FILTER" ? target : state.filtered,
+                filtered: action.type == 'FILTER' ? target : state.filtered,
                 latest: state.latest,
                 state: action.type,
                 filter: filter
-            }
-        case "ERROR":
+            };
+        case 'ERROR':
             return {
                 list: [],
                 filtered: [],
                 latest: 0,
-                state: "ERROR",
+                state: 'ERROR',
                 filter: filter
-            }
+            };
     }
-}
+};
 
 export const RecordListProvider = ({ children }: { children: React.ReactNode }) => {
-    const [ fetchState, setFetchState ] = useState<FetchState>("START");
+    const [ fetchState, setFetchState ] = useState<FetchState>('START');
     const [ context, dispatch ] = useReducer(RecordListReducer, {
         list: [],
         filtered: [],
         latest: 0,
-        state: "CHECK",
+        state: 'CHECK',
         filter: {
             pushType: 0,
             worldId: [],
@@ -152,17 +152,17 @@ export const RecordListProvider = ({ children }: { children: React.ReactNode }) 
     });
 
     const load = async (lastSN: number) => {
-        const auctionRecords = await window.ipcRenderer.invoke("AUCTION_HISTORY", lastSN) as AuctionRecord[];
-        await new Promise((resolve) => setTimeout(() => { resolve(1) }, 1000));
-        await setFetchState((!auctionRecords || auctionRecords.length < 20) ? "END" : "CALL");
+        const auctionRecords = await window.ipcRenderer.invoke('AUCTION_HISTORY', lastSN) as AuctionRecord[];
+        await new Promise((resolve) => setTimeout(() => { resolve(1); }, 1000));
+        await setFetchState((!auctionRecords || auctionRecords.length < 20) ? 'END' : 'CALL');
         await dispatch({
-            type: "CONCAT",
+            type: 'CONCAT',
             records: auctionRecords 
         });
-    }
+    };
 
     useEffect(() => {
-        if(context.state == "CHECK" && fetchState != "END") {
+        if(context.state == 'CHECK' && fetchState != 'END') {
             load(context.latest);
         }
     }, [ context.state ]);
@@ -173,5 +173,5 @@ export const RecordListProvider = ({ children }: { children: React.ReactNode }) 
                 { children }
             </RecordListDispatch.Provider>
         </RecordListContext.Provider>
-    )
-}
+    );
+};

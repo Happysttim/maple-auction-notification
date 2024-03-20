@@ -35,24 +35,24 @@ export namespace NXCrypt {
 
     const cipherWithAES128 = (key: string | Uint8Array, bArr: Uint8Array, i: CryptType): Buffer => {
         if(typeof key == 'string') {
-            key = Uint8Array.from(Array.from(key).map(v => v.charCodeAt(0))) as Uint8Array
+            key = Uint8Array.from(Array.from(key).map(v => v.charCodeAt(0))) as Uint8Array;
         }
 
         const newBytes = new Int8Array(16);
         newBytes.set(key.subarray(0, 16));
     
-        const cipher = crypto[i == CryptType.ENCRYPT ? "createCipheriv" : "createDecipheriv"]("aes-128-ecb", newBytes, null);
+        const cipher = crypto[i == CryptType.ENCRYPT ? 'createCipheriv' : 'createDecipheriv']('aes-128-ecb', newBytes, null);
         return Buffer.concat([cipher.update(bArr), cipher.final()]);
-    }
+    };
     
     const cipherWithAES256 = (bArr: Uint8Array, bArr2: Uint8Array, bArr3: Uint8Array, i: CryptType, str: 'aes-256-cbc' | null): Buffer => {
         const newBytes = new Int8Array(32);
         newBytes.set(bArr.subarray(0, 32));
     
-        const cipher = crypto[i == CryptType.ENCRYPT ? "createCipheriv" : "createDecipheriv"]("aes-256-cbc", newBytes, (bArr3 != null && str != null) ? bArr3 : null);
+        const cipher = crypto[i == CryptType.ENCRYPT ? 'createCipheriv' : 'createDecipheriv']('aes-256-cbc', newBytes, (bArr3 != null && str != null) ? bArr3 : null);
     
         return Buffer.concat([cipher.update(bArr2), cipher.final()]);
-    }
+    };
     
     const makeNPSNAES128Key = (i: number): Uint8Array => {
         return HttpsCrypt.encryptWithAES128(i.toLocaleString('en-US', {
@@ -62,32 +62,30 @@ export namespace NXCrypt {
             minimumIntegerDigits: 19,
             useGrouping: false
         }).substring(4)));
-    }
+    };
     
     const encodeHmacSha256 = (str: string, b: Uint8Array): Uint8Array => {
-        return crypto.createHmac("sha256", Buffer.from(str, "utf-8")).update(b).digest();
-    }
+        return crypto.createHmac('sha256', Buffer.from(str, 'utf-8')).update(b).digest();
+    };
 
     export const AppCrypto = {
         
         ASEDecrypt: (bArr: Uint8Array): Uint8Array => {
-            const decipher = crypto.createDecipheriv("aes-256-cbc", APP_CRYPT_KEY, APP_CRYPT_IV);
+            const decipher = crypto.createDecipheriv('aes-256-cbc', APP_CRYPT_KEY, APP_CRYPT_IV);
     
             return Buffer.concat([decipher.update(bArr), decipher.final()]);
         },
     
         AESEncrypt: (bArr: Uint8Array): Buffer => {
-            const encrypter = crypto.createCipheriv("aes-256-cbc", APP_CRYPT_KEY, APP_CRYPT_IV);
+            const encrypter = crypto.createCipheriv('aes-256-cbc', APP_CRYPT_KEY, APP_CRYPT_IV);
     
             return Buffer.concat([encrypter.update(bArr), encrypter.final()]);
         }
-    }
+    };
     
     export const HttpsCrypt = {
 
         decrypt: (bArr: Uint8Array, cryptoType: HttpsCryptType, i: number): Uint8Array => {
-            
-            const cType = cryptoTypes[cryptoType];
             const nxToyDecrypt: INXToyCrypt = {
                 crypt: new Uint8Array(0)
             };
@@ -119,8 +117,7 @@ export namespace NXCrypt {
                     nxToyEncrypt.crypt = b;
                 break;
                 case 2:
-                    const key = makeNPSNAES128Key(i);
-                    nxToyEncrypt.crypt = HttpsCrypt.encryptWithAES128(key, b);
+                    nxToyEncrypt.crypt = HttpsCrypt.encryptWithAES128(makeNPSNAES128Key(i), b);
                 break;
                 case 3:
                     nxToyEncrypt.crypt = HttpsCrypt.encryptWithAES128(COMMON_AES_KEY, b);
@@ -151,11 +148,11 @@ export namespace NXCrypt {
         },
     
         sha256HexString: (str: string): string => {
-            return crypto.createHash('sha256').update(str).digest("hex");
+            return crypto.createHash('sha256').update(str).digest('hex');
         },
     
         sha512: (b: Uint8Array): string => {
             return crypto.createHash('sha512').update(b).digest('binary');
         }
-    }
+    };
 }

@@ -1,6 +1,7 @@
 {
-  "name": "maple-aution-notification",
+  "name": "maple-auction-notification",
   "version": "1.0.0",
+  "repository": "https://github.com/Happysttim/maple-auction-notification",
   "description": "",
   "main": "./dist/index.js",
   "scripts": {
@@ -10,10 +11,39 @@
     "vite": "vite -c vite.renderer.config.ts ",
     "build": "tsc && vite -c renderer.config.ts build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy:win32": "electron-builder --win portable --ia32",
+    "deploy:win64": "electron-builder --win --x64"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "happysttim",
+  "license": "MIT",
+  "build": {
+    "productName": "MapleSyrup",
+    "win": {
+      "target": [
+        "portable"
+      ],
+      "icon": "./src/resources/icon256.png"
+    },
+    "portable": {
+      "artifactName": "MapleSyrup.exe"
+    },
+    "directories": {
+      "output": "./output/",
+      "app": "."
+    },
+    "files": [
+      "dist",
+      ".env",
+      "!node_module",
+      "node_module/electron/*",
+      "node_module/electron-is-dev/*",
+      "node_module/dotenv/*",
+      "node_module/iconv-lite/*",
+      "node_module/long/*",
+      "node_module/axios/*"
+    ]
+  },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-json": "^6.0.0",
@@ -26,11 +56,11 @@
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.7.0",
-    "@typescript-eslint/parser": "^6.7.0",
+    "@typescript-eslint/parser": "^6.21.0",
     "@vitejs/plugin-react": "^4.0.4",
     "concurrently": "^8.2.1",
     "cross-env": "^7.0.3",
-    "electron": "^26.2.1",
+    "electron": "^26.6.3",
     "electron-builder": "^24.6.4",
     "electron-is-dev": "^2.0.0",
     "eslint": "^8.49.0",
@@ -48,13 +78,11 @@
     "@types/uuid": "^9.0.7",
     "axios": "^1.6.0",
     "dotenv": "^16.3.1",
-    "electron-store": "^8.1.0",
     "iconv-lite": "^0.6.3",
     "long": "^5.2.3",
     "pkcs7": "^1.0.4",
     "react": "^18.2.0",
     "react-datepicker": "^4.25.0",
-    "react-dom": "^18.2.0",
-    "sqlite3": "^5.1.6"
+    "react-dom": "^18.2.0"
   }
 }

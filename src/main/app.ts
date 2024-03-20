@@ -72,7 +72,7 @@ export default class ElectronApp {
         this.toyClient = new ToyClient();
         this.nxrequest = new NXRequest();
         this.pushReceiver = new PushReceiver({
-            senderId: process.env.HANDSPLUS_SENDER_ID ?? ""
+            senderId: process.env.HANDSPLUS_SENDER_ID ?? ''
         });
         this.pushConfig = getConfig();
     }
@@ -103,7 +103,7 @@ export default class ElectronApp {
         }
 
         this.mainWindow.show();
-        this.mainWindow.on("close", e => {
+        this.mainWindow.on('close', e => {
             e.preventDefault();
             this.mainWindow!.hide();
         });
@@ -119,13 +119,12 @@ export default class ElectronApp {
         );
 
         if(electronIsDev) {
-            this.loginWindow.loadURL(BASE_URL + "/login.html");
+            this.loginWindow.loadURL(BASE_URL + '/login.html');
         } else {
             this.loginWindow.loadFile(path.join(__dirname, '../dist/login.html'));
         }
 
         this.loginWindow.show();
-        this.loginWindow.webContents.openDevTools();
     }
 
     ping() {
@@ -156,7 +155,7 @@ export default class ElectronApp {
 
                 if(Notification.isSupported() && this.pushConfig.isPush && (this.pushConfig.type == 0 || extension.noticeType == this.pushConfig.type)) {
                     const notificate = new Notification({
-                        title: "경매장 알림",
+                        title: '경매장 알림',
                         body: data.body
                     });
 
@@ -171,7 +170,7 @@ export default class ElectronApp {
                     this.mainWindow?.webContents.send('WATCHED');
                 }
 
-                // this.nxrequest.request(toyPushAck);
+                this.nxrequest.request(toyPushAck);
             }
 
         });
@@ -196,8 +195,8 @@ export default class ElectronApp {
             this.pushConfig = saveConfig(config);
         });
         
-        ipcMain.handle('LOGIN', async (_: IpcMainInvokeEvent, [loginType, id, password]): Promise<boolean> => {
-            if(id.trim() == "" || password.trim() == "") {
+        ipcMain.handle('LOGIN', async (_: IpcMainInvokeEvent, [ type, id, password ]): Promise<boolean> => {
+            if(id.trim() == '' || password.trim() == '') {
                 return false;
             }  
 
@@ -221,7 +220,7 @@ export default class ElectronApp {
                     this.uuid2, 
                     loginResponse.dwAccountId!,
                     NXCrypt.HttpsCrypt.encodeHmacSha256ToHexString(
-                        "NexonUser", ByteUtils.stringToByteArray(password)
+                        'NexonUser', ByteUtils.stringToByteArray(password)
                     )
                 );
 
@@ -240,12 +239,14 @@ export default class ElectronApp {
                 });
 
                 if(signInResponse.errorCode == 0) {
-                    this.nxCredential = {
-                        npsn: signInResponse.result?.npSN!,
-                        npToken: signInResponse.result?.npToken!,
-                        dwAccountId: loginResponse.dwAccountId!,
-                        session: loginResponse.session!
-                    };
+                    if(signInResponse.result != null) {
+                        this.nxCredential = {
+                            npsn: signInResponse.result.npSN,
+                            npToken: signInResponse.result.npToken,
+                            dwAccountId: loginResponse.dwAccountId ?? 0,
+                            session: loginResponse.session!
+                        };
+                    }
 
                     const tokenRequest = new NXToyTokenRequest(
                         this.uuid,
@@ -324,7 +325,7 @@ export default class ElectronApp {
     }
 
     initTray() {
-        this.tray = new Tray(nativeImage.createEmpty());
+        this.tray = new Tray(nativeImage.createFromPath(path.join(__dirname + '/icon.ico')));
         this.contextMenu = Menu.buildFromTemplate([
             {label: '프로그램 닫기', type: 'normal', click: () => {
                 app.exit();
@@ -337,4 +338,4 @@ export default class ElectronApp {
         ]);
         this.tray.setContextMenu(this.contextMenu);
     }
-};
+}

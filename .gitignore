@@ -4,5 +4,6 @@ packet.txt
 src/test/
 src/**/*.js
 dist/
+output/
 node_modules/
 .env

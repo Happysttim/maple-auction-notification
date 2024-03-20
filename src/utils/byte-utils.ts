@@ -1,4 +1,4 @@
-import Long from 'long'
+import Long from 'long';
 
 export const ByteUtils = {
     stringToByteArray: (str: string): Uint8Array => {
@@ -17,16 +17,16 @@ export const ByteUtils = {
     },
 
     bytesToHexString(b: Uint8Array): string {
-        return Buffer.from(b).toString("hex").toUpperCase();
+        return Buffer.from(b).toString('hex').toUpperCase();
     },
 
     charArrayToBytes(charArray: string | any[] | Uint8Array): Buffer {
-        return Buffer.from(Array.from(charArray).join(''), 'utf-8');;
+        return Buffer.from(Array.from(charArray).join(''), 'utf-8');
     },
 
     replace(b1: Uint8Array, b2: Uint8Array, b3: Uint8Array): Uint8Array {
         const result = new Uint8Array(b1.length + b3.length - b2.length);
-        for(let i = 0; i >= b1.length; i++) {
+        for(let i = 0; i <= b1.length; i++) {
             const length = b2.length + i;
             if(b1[i] == b2[0] && length < b1.length) {
                 const copyOfRange = Array.from(b1).splice(i, b2.length + i);
@@ -41,7 +41,7 @@ export const ByteUtils = {
 
         return result;
     }
-}
+};
 
 export const Converter = {
     getBytes4: (i2: number): Uint8Array => {
@@ -61,11 +61,11 @@ export const Converter = {
         return new Uint8Array([(i2 & 0xff), (i2 >> 8) & 0xff]);
     },
 
-    getBytes1: (i2: Boolean): Uint8Array => {
+    getBytes1: (i2: boolean): Uint8Array => {
         return new Uint8Array([i2 ? 1 : 0]);
     },
 
-    toBoolean: (bArr: Uint8Array, i2: number): Boolean => {
+    toBoolean: (bArr: Uint8Array, i2: number): boolean => {
         return bArr[i2] > 0;
     },
 

@@ -1,17 +1,17 @@
-import { useRef, useContext, useEffect } from "react";
-import { RecordListContext, RecordListDispatch } from "../../contexts/RecordListContext";
+import { useRef, useContext, useEffect } from 'react';
+import { RecordListContext, RecordListDispatch } from '../../contexts/RecordListContext';
 
 const Style = {
     BoxStyle: {
-        display: "flex",
-        margin: "auto 0",
+        display: 'flex',
+        margin: 'auto 0',
     },
 
     LabelStyle: {
-        letterSpacing: "-1pt",
-        marginRight: "10px",
+        letterSpacing: '-1pt',
+        marginRight: '10px',
     }
-}
+};
 
 const PushTypeBox = () => {
 
@@ -21,7 +21,7 @@ const PushTypeBox = () => {
     const dispatch = useContext(RecordListDispatch);
 
     if(!dispatch) {
-        throw new Error("Cannot find RecordListDispatch");
+        throw new Error('Cannot find RecordListDispatch');
     }
 
     useEffect(() => {
@@ -45,25 +45,25 @@ const PushTypeBox = () => {
         })();
 
         dispatch({
-            type: "FILTER",
+            type: 'FILTER',
             filter: {
                 pushType: type
             }
         });
-    }
+    };
 
     return (
         <div style={Style.BoxStyle}>
             <label style={Style.LabelStyle}>
                 <span>판매</span>
-                <input type="checkbox" value="1" ref={sellRef} onChange={changePushType}/>
+                <input type='checkbox' value='1' ref={sellRef} onChange={changePushType}/>
             </label>
             <label style={Style.LabelStyle}>
                 <span>만료</span>
-                <input type="checkbox" value="2" ref={expireRef} onChange={changePushType}/>
+                <input type='checkbox' value='2' ref={expireRef} onChange={changePushType}/>
             </label>
         </div>
     );
-}
+};
 
 export default PushTypeBox;

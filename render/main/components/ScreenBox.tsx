@@ -1,15 +1,15 @@
-import React, { useContext } from "react";
-import { RecordListProvider } from "../contexts/RecordListContext";
-import { RouteViewContext } from "../contexts/RouteViewContext";
-import Watcher from "./Watcher";
+import React, { useContext } from 'react';
+import { RecordListProvider } from '../contexts/RecordListContext';
+import { RouteViewContext } from '../contexts/RouteViewContext';
+import Watcher from './Watcher';
 
 const ScreenBoxStyle = {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     flexGrow: 2,
     zIndex: 1,
-}
+};
 
-const ScreenBox = (props: any) => {
+const ScreenBox = (_: any) => {
     const context = useContext(RouteViewContext);
 
     return (
@@ -21,7 +21,7 @@ const ScreenBox = (props: any) => {
             }
             </div>
         </RecordListProvider>
-    )
-}
+    );
+};
 
 export default ScreenBox;

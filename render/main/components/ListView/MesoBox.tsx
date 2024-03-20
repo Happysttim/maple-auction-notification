@@ -1,25 +1,25 @@
-import { useContext, useEffect, useState } from "react";
-import { RecordListContext, RecordListDispatch } from "../../contexts/RecordListContext";
+import { useContext, useEffect, useState } from 'react';
+import { RecordListContext, RecordListDispatch } from '../../contexts/RecordListContext';
 
 const Style = {
     BoxStyle: {
-        letterSpacing: "-0.5pt",
-        fontSize: "16pt",
-        color: "black",
-        display: "flex" as const,
-        justifyContent: "space-between" as const,
-        margin: "20px",
+        letterSpacing: '-0.5pt',
+        fontSize: '16pt',
+        color: 'black',
+        display: 'flex' as const,
+        justifyContent: 'space-between' as const,
+        margin: '20px',
     },
     ContentStyle: {
         BoxStyle: {
-            width: "auto",
+            width: 'auto',
         },
 
         MesoStyle: {
-            fontFamily: "NanumGothicExtraBold"
+            fontFamily: 'NanumGothicExtraBold'
         }
     },
-}
+};
 
 const MesoBox = () => {
 
@@ -27,26 +27,26 @@ const MesoBox = () => {
     const dispatch = useContext(RecordListDispatch);
 
     if(!dispatch) {
-        throw new Error("Cannot find RecordListDispatch");
+        throw new Error('Cannot find RecordListDispatch');
     }
 
     const [ meso, setMeso ] = useState(0);
     const [ amount, setAmount ] = useState(0);
 
     useEffect(() => {
-        if(recordContext.state != "ERROR") {
+        if(recordContext.state != 'ERROR') {
             let addition = 0, start = 0, end = 0;
 
             switch(recordContext.state) {
-                case "ADD":
-                case "CONCAT":
+                case 'ADD':
+                case 'CONCAT':
                     if(amount != recordContext.state.length) {
-                        start = recordContext.state == "CONCAT" ? amount : 0;
-                        end = Math.abs((recordContext.state == "CONCAT" ? 0 : start) - recordContext.filtered.length);
+                        start = recordContext.state == 'CONCAT' ? amount : 0;
+                        end = Math.abs((recordContext.state == 'CONCAT' ? 0 : start) - recordContext.filtered.length);
                     }
                 break;
-                case "CHECK":
-                case "FILTER":
+                case 'CHECK':
+                case 'FILTER':
                     start = 0;
                     end = recordContext.filtered.length;
                 break;
@@ -58,12 +58,12 @@ const MesoBox = () => {
                 }
             }
 
-            setMeso(meso => (recordContext.state == "ADD" || recordContext.state == "CONCAT") ? meso + addition : addition);
+            setMeso(meso => (recordContext.state == 'ADD' || recordContext.state == 'CONCAT') ? meso + addition : addition);
             setAmount(recordContext.filtered.length);
 
-            if(recordContext.state != "CHECK") {
+            if(recordContext.state != 'CHECK') {
                 dispatch({
-                    type: "CHECK",
+                    type: 'CHECK',
                 });
             }
         }
@@ -79,6 +79,6 @@ const MesoBox = () => {
             </div>
         </div>
     );
-}
+};
 
 export default MesoBox;

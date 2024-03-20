@@ -1,15 +1,15 @@
-import React from "react";
+import React from 'react';
 
 type ListItemContentProps = {
     children: React.ReactNode,
 }
 
 const ListItemContentStyle = {
-    display: "flex" as const,
-    flexGrow: "2",
-    flexDirection: "column" as const,
-    justifyContent: "space-between" as const
-}
+    display: 'flex' as const,
+    flexGrow: '2',
+    flexDirection: 'column' as const,
+    justifyContent: 'space-between' as const
+};
 
 const ListItemContent = (props: ListItemContentProps) => {
     return (
@@ -17,6 +17,6 @@ const ListItemContent = (props: ListItemContentProps) => {
             { props.children }
         </div>
     );
-}
+};
 
 export default ListItemContent;

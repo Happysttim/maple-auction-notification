@@ -1,5 +1,5 @@
-import { ReadBuffer } from "../packet-buffer";
-import { IResponse } from "../toy-packet";
+import { ReadBuffer } from '../packet-buffer';
+import { IResponse } from '../toy-packet';
 
 export type Record = {
     nSN: number;

@@ -1,4 +1,4 @@
-import { ReadBuffer, WriteBuffer } from "./packet-buffer";
+import { ReadBuffer, WriteBuffer } from './packet-buffer';
 
 export interface IRequest {
     readonly packetId: number;

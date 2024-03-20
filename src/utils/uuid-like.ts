@@ -19,6 +19,6 @@ const UuidLike = {
         return result;
     }
 
-}
+};
 
 export default UuidLike;

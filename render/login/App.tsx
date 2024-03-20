@@ -4,6 +4,6 @@ const App = () => {
     return (
         <LoginBox/> 
     );
-}
+};
 
 export default App;

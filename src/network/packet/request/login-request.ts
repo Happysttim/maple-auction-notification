@@ -1,5 +1,5 @@
-import { WriteBuffer } from "../packet-buffer";
-import { IRequest } from "../toy-packet";
+import { WriteBuffer } from '../packet-buffer';
+import { IRequest } from '../toy-packet';
 
 export default class LoginRequest implements IRequest {
     readonly packetId: number = 4;
@@ -25,9 +25,9 @@ export default class LoginRequest implements IRequest {
         buffer.encodeByte(0);
         buffer.encodeString(this.id);
         buffer.encodeString(this.password);
-        buffer.encodeString("");
+        buffer.encodeString('');
         buffer.encodeString(this.adid);
-        buffer.encodeString("13");
+        buffer.encodeString('13');
 
         return buffer;
     }

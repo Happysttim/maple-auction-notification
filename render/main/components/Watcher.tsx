@@ -1,6 +1,6 @@
-import React, { useContext, useLayoutEffect, useState } from "react";
-import { RecordListDispatch } from "../contexts/RecordListContext";
-import { AuctionRecord } from "../utils/maple";
+import React, { useContext, useLayoutEffect, useState } from 'react';
+import { RecordListDispatch } from '../contexts/RecordListContext';
+import { AuctionRecord } from '../utils/maple';
 
 window.ipcRenderer.send('START_WATCHER');
 
@@ -9,18 +9,18 @@ const Watcher = () => {
     const [ watched, setState ] = useState<boolean>(false);
 
     if(!dispatch) {
-        throw new Error("Cannot find RecordListDispatch");
+        throw new Error('Cannot find RecordListDispatch');
     }
 
     const fetch = async () => {
-        const auctionRecords = await window.ipcRenderer.invoke("AUCTION_HISTORY", 0) as AuctionRecord[];
+        const auctionRecords = await window.ipcRenderer.invoke('AUCTION_HISTORY', 0) as AuctionRecord[];
         await dispatch({
-            type: "ADD",
+            type: 'ADD',
             records: auctionRecords 
         });
 
         await setState(false);
-    }
+    };
 
     useLayoutEffect(() => {
         if(watched) {
@@ -33,6 +33,6 @@ const Watcher = () => {
     });
 
     return (<></>);
-}
+};
 
 export default Watcher;

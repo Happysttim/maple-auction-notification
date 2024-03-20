@@ -1,5 +1,5 @@
-import { contextBridge, ipcRenderer, IpcRendererEvent } from "electron";
-import { getConfig, PushType } from "../utils/config";
+import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
+import { getConfig, PushType } from '../utils/config';
 
 contextBridge.exposeInMainWorld('ipcRenderer', {
     on: (channel: string, listener: (event: IpcRendererEvent, ...args: any[]) => void) => ipcRenderer.on(channel, listener),

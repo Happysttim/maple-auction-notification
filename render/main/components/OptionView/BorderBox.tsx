@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 type BorderBoxProps = {
     children: React.ReactNode,
@@ -15,19 +15,19 @@ const BorderBox = (props: BorderBoxProps) => {
             width: props.width,
             height: props.height,
             border: props.borderStyle,
-            borderRadius: "12px",
-            padding: "12px",
-            margin: "8px",
-            backgroundColor: "inherit"
+            borderRadius: '12px',
+            padding: '12px',
+            margin: '8px',
+            backgroundColor: 'inherit'
         },
 
         LabelStyle: {
-            width: "inherit",
-            letterSpacing: "-1pt",
-            fontSize: "14pt",
-            fontWeight: "500"
+            width: 'inherit',
+            letterSpacing: '-1pt',
+            fontSize: '14pt',
+            fontWeight: '500'
         }
-    }
+    };
 
     return (
         <div style={Style.BoxStyle}>
@@ -39,6 +39,6 @@ const BorderBox = (props: BorderBoxProps) => {
             </div>
         </div>
     );
-}
+};
 
 export default BorderBox;

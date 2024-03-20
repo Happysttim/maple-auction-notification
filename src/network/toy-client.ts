@@ -1,11 +1,11 @@
-import { NXCrypt } from "../crypt/toy-crypt";
-import { ReadBuffer , WriteBuffer } from "./packet/packet-buffer";
-import { IRequest, IResponse } from "./packet/toy-packet"
+import { NXCrypt } from '../crypt/toy-crypt';
+import { ReadBuffer , WriteBuffer } from './packet/packet-buffer';
+import { IRequest, IResponse } from './packet/toy-packet';
 import * as net from 'node:net';
 import 'dotenv/config';
 
 const serverOpts: net.NetConnectOpts = {
-    port: parseInt(process.env.PORT ?? "8605"),
+    port: parseInt(process.env.PORT ?? '8605'),
     host: process.env.SERVER_IP
 };
 
@@ -20,10 +20,10 @@ export default class ToyClient {
         const responsePacket = new responseClass();
         
         if(!this.socket.write(requestData.final())) {
-            throw new Error(requestPacket.packetId + " packet error");
+            throw new Error(requestPacket.packetId + ' packet error');
         } 
 
-        return new Promise<V>((resolve, reject) => {
+        return new Promise<V>((resolve, _) => {
             let origin: Uint8Array;
             let size: number, packetLength: number = 0;
 
@@ -46,7 +46,7 @@ export default class ToyClient {
                     responsePacket.decode(responseData);
                     origin = new Uint8Array();
                     size = 0; packetLength = 0;
-                    this.socket.removeAllListeners("data");
+                    this.socket.removeAllListeners('data');
                     resolve(responsePacket);
                 }
             });

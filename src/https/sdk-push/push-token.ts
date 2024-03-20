@@ -1,4 +1,4 @@
-import { IRequest, Host, Header, BodyMessage, IResponse } from '../nx-request';
+import { IRequest, Host, Header, BodyMessage } from '../nx-request';
 
 export default class NXToyTokenRequest implements IRequest {
 
@@ -15,26 +15,26 @@ export default class NXToyTokenRequest implements IRequest {
         this.path = '/sdk/push/token';
         this.method = 'post';
         this.header = {
-            "channel_id": null,
-            "Content-Type": "application/json",
-            "timeZone": 0,
-            "x-toy-service-id": 1118,
-            "gid": 1118,
-            "guid": npsn,
-            "gcid": null,
-            "gsid": null,
-            "world_id": null,
+            'channel_id': null,
+            'Content-Type': 'application/json',
+            'timeZone': 0,
+            'x-toy-service-id': 1118,
+            'gid': 1118,
+            'guid': npsn,
+            'gcid': null,
+            'gsid': null,
+            'world_id': null,
         };
         this.body = {
-            svcID: "1118",
+            svcID: '1118',
             ldid: uuid2,
-            country: "KR",
-            loc: "en_US",
+            country: 'KR',
+            loc: 'en_US',
             npToken: npToken,
-            appId: "com.nexon.handsplus",
+            appId: 'com.nexon.handsplus',
             udid: uuid,
             pushToken: pushToken,
-            platform: "1"
-        }
+            platform: '1'
+        };
     }
 }
