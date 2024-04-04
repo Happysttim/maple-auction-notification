@@ -1,6 +1,5 @@
 import * as path from 'path';
 import { app, BrowserWindow, Tray, ipcMain, Menu, nativeImage, IpcMainInvokeEvent, Notification, dialog } from 'electron';
-import electronIsDev from 'electron-is-dev';
 import ToyClient from '../network/toy-client';
 import { PushReceiver } from '@eneris/push-receiver';
 import UuidLike from '../utils/uuid-like';
@@ -18,9 +17,7 @@ import AuctionRequest from '../network/packet/request/auction-request';
 import AuctionResponse, { Record as AuctionRecord } from '../network/packet/response/auction-response';
 import PingRequest from 'src/network/packet/request/ping-request';
 import { PushType, getConfig, saveConfig } from 'src/utils/config';
-import 'dotenv/config';
-
-const BASE_URL = 'http://localhost:5173';
+import Values from 'src/value/value';
 
 type NXCredential = {
     npsn: number,
@@ -72,13 +69,12 @@ export default class ElectronApp {
         this.toyClient = new ToyClient();
         this.nxrequest = new NXRequest();
         this.pushReceiver = new PushReceiver({
-            senderId: process.env.HANDSPLUS_SENDER_ID ?? ''
+            senderId: Values.HANDSPLUS_SENDER_ID
         });
         this.pushConfig = getConfig();
     }
 
     async initNotifcate() {
-
         this.pushReceiver.onCredentialsChanged(({ newCredentials }) => {
             this.pushToken = newCredentials.fcm.token;
         });
@@ -96,11 +92,7 @@ export default class ElectronApp {
             }
         );
 
-        if(electronIsDev) {
-            this.mainWindow.loadURL(BASE_URL + '/main.html');
-        } else {
-            this.mainWindow.loadFile(path.join(__dirname, '../dist/main.html'));
-        }
+        this.mainWindow.loadFile(path.join(__dirname, '/render/main.html'));
 
         this.mainWindow.show();
         this.mainWindow.on('close', e => {
@@ -118,12 +110,7 @@ export default class ElectronApp {
             }
         );
 
-        if(electronIsDev) {
-            this.loginWindow.loadURL(BASE_URL + '/login.html');
-        } else {
-            this.loginWindow.loadFile(path.join(__dirname, '../dist/login.html'));
-        }
-
+        this.loginWindow.loadFile(path.join(__dirname, '/render/login.html'));
         this.loginWindow.show();
     }
 
