@@ -93,7 +93,6 @@ export default class ElectronApp {
         );
 
         this.mainWindow.loadFile(path.join(__dirname, '/render/main.html'));
-
         this.mainWindow.show();
         this.mainWindow.on('close', e => {
             e.preventDefault();

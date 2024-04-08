@@ -5,6 +5,7 @@ import Bubble from './Bubble';
 import ListItem from './ListItem';
 import { RecordListContext } from '../../contexts/RecordListContext';
 import maple, { dateFormat } from '../../utils/maple';
+import dateCal from '../../utils/date-calculator';
 
 const ListViewBody = () => {
 
@@ -33,29 +34,35 @@ const ListViewBody = () => {
                                                 const date = dateFormat(record.date);
                                                 const now = new Date();
 
-                                                const diffTime = Math.abs((now.getHours() * 60 * 60 + now.getMinutes() * 60 + now.getSeconds()) - (date.getHours() * 60 * 60 + date.getMinutes() * 60 + date.getSeconds()));
-                                                const diffSec = diffTime % 60;
-                                                const diffMin = Math.floor(diffTime / 60);
-                                                const diffHour = Math.floor(diffMin / 60); 
-
-                                                const [ month, day ] = [
-                                                    now.getMonth() - date.getMonth(),
-                                                    now.getDate() - date.getDate(),
+                                                const [ dYear, dMonth, dDay, dHour, dMin, dSeconds ] = [
+                                                    dateCal.diffYear(now, date),
+                                                    dateCal.diffMonth(now, date),
+                                                    dateCal.diffDay(now, date),
+                                                    dateCal.diffHours(now, date),
+                                                    dateCal.diffMinutes(now, date),
+                                                    dateCal.diffSeconds(now, date)
                                                 ];
 
-                                                if(month == 0) {
-                                                    if(day == 0) {
-                                                        if(diffHour == 0) {
-                                                            if(diffMin == 0) {
-                                                                return <>{diffSec}초 전</>;          
-                                                            }
-                                                            return <>{diffMin}분 전</>;
-                                                        }
-                                                        return <>{diffHour}시간 전</>;
-                                                    }
-                                                    return <>{day}일 전</>;
+                                                if(dSeconds < 60) {
+                                                    return <>{dSeconds + '초 전'}</>;
                                                 }
-                                                return <>{month <= 3 ? month + '달 전' : record.date}</>;
+
+                                                if(dMin < 60) {
+                                                    return <>{dMin + '분 전'}</>;
+                                                }
+
+                                                if(dHour < 24) {
+                                                    return <>{dHour + '시간 전'}</>;
+                                                }
+
+                                                if(dDay <= 31) {
+                                                    return <>{dDay + '일 전'}</>;
+                                                }
+
+                                                if(dMonth < 12) {
+                                                    return <>{dMonth + '달 전'}</>;
+                                                }
+                                                return <>{dYear + '년 전'}</>;
                                             })() 
                                         }</span>
                                     </div>
