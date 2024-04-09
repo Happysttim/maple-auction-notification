@@ -27,43 +27,12 @@ export const dateFormat = (s: string): Date => {
 
 const maple = {
 
-    worldToId(world: string): number {
-        switch(world) {
-            case '스카니아':
-                return 1;
-            case '베라':
-                return 2;
-            case '루나':
-                return 3;
-            case '제니스':
-                return 4;
-            case '크로아':
-                return 5;
-            case '유니온':
-                return 6;
-            case '엘리시움':
-                return 7;
-            case '이노시스':
-                return 8;
-            case '레드':
-                return 9;
-            case '오로라':
-                return 10;
-            case '아케인':
-                return 11;
-            case '노바':
-                return 12;
-        }
-
-        return 65535;
-    },
-
     worldToName(id: number): string {
         switch(id) {
             case 1:
-                return '스카니아';
-            case 2:
                 return '베라';
+            case 2:
+                return '스카니아';
             case 3:
                 return '루나';
             case 4:
